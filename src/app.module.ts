@@ -22,7 +22,7 @@ import { GqlModule } from './gql';
     }),
     // Static Folder
     ServeStaticModule.forRoot({
-      rootPath: `${__dirname}/../public`,
+      rootPath: `${__dirname}/../../public`,
       renderPath: '/',
     }),
     // Service Modules
