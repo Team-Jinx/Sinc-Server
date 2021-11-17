@@ -1,0 +1,47 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Date custom scalar type"""
+scalar Date
+
+type Mutation {
+  create(simpleData: SimpleInput!): Post!
+  remove(id: ID!): Boolean!
+}
+
+type Payload {
+  roles: [String!]!
+  userId: String!
+  username: String!
+}
+
+type Post {
+  author: User
+  content: String
+  createdAt: Date!
+  id: ID!
+  published: Boolean
+  title: String!
+  updatedAt: Date!
+  viewCount: Int!
+}
+
+type Query {
+  find(content: String, title: String!): [Post!]!
+  read(id: ID!): Post!
+  user: Payload!
+}
+
+input SimpleInput {
+  content: String
+  tags: [String!]!
+  title: String!
+}
+
+type User {
+  email: String!
+  id: ID!
+  name: String
+  posts: [Post!]
+}

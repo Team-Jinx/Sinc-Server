@@ -1,0 +1,18 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "entryFile": "app",
+  "compilerOptions": {
+    "tsConfigPath": "tsconfig.build.json",
+    "plugins": [
+      {
+        "name": "@nestjs/graphql",
+        "options": { "introspectComments": true }
+      },
+      {
+        "name": "@nestjs/swagger",
+        "options": { "introspectComments": true }
+      }
+    ]
+  }
+}
