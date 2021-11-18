@@ -1,0 +1,6 @@
+node_modules
+dist
+.eslintrc
+.gitignore
+.gitattributes
+.prettierrc

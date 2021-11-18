@@ -29,7 +29,7 @@ type Post {
 
 type Query {
   find(content: String, title: String!): [Post!]!
-  read(id: ID!): Post!
+  postById(id: ID!): Post!
   user: Payload!
 }
 
