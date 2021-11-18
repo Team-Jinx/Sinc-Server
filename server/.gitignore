@@ -4,7 +4,7 @@
 dist
 docs
 build
-prisma/schema.prisma
+# prisma/schema.prisma
 
 
 # Logs
