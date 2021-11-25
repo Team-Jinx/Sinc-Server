@@ -2,11 +2,12 @@ import { ArgsType } from '@nestjs/graphql';
 import { IsOptional, IsString } from 'class-validator';
 
 @ArgsType()
-export class SimpleArgs {
+export class FindUserArgs {
+  @IsOptional()
   @IsString()
-  public title!: string;
+  public email?: string;
 
   @IsOptional()
   @IsString()
-  public content?: string;
+  public nickname?: string;
 }

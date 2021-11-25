@@ -1,16 +1,13 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import {
-  ConfigModule,
-  // ConfigService
-} from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
-import { GqlModule } from './gql';
-// import { SampleModule } from './sample';
+import { UsersModule } from './users';
 
 @Module({
   imports: [
@@ -25,10 +22,17 @@ import { GqlModule } from './gql';
       rootPath: `${__dirname}/../../public`,
       renderPath: '/',
     }),
+    // GraphQL
+    GraphQLModule.forRootAsync({
+      useFactory: (config: ConfigService) => ({
+        ...config.get('graphql'),
+      }),
+      inject: [ConfigService],
+    }),
     // Service Modules
     CommonModule, // Global
     BaseModule,
-    GqlModule,
+    UsersModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers

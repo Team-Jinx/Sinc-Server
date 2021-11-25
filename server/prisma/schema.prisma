@@ -12,20 +12,133 @@ datasource db {
 }
 
 model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String?
-  posts Post[]
+  id                  String    @default(cuid()) @id
+  email               String    @unique
+  nickname            String    @unique
+  phone               String?
+  profileUrl          String?
+  isPushNotification  Boolean   @default(true)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  usersBoughtPerformances UsersBoughtPerformances[]
+  usersCheeredPerformances UsersCheeredPerformances[]
+  notifications       Notification[]
 }
 
-model Post {
-  id        Int      @default(autoincrement()) @id
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Artist {
+  id        String @default(cuid()) @id
+  name      String
+  agency    String?
+  profileUrl String?
+  performances Performance[]
+}
+
+model Performance {
+  id                  String    @default(cuid()) @id
+  title               String
+  description         String?   @db.Text
+  cheerCount          Int       @default(0)
+  place               String 
+  price               Int       @default(0)
+  showTime            String    @db.Text
+  runningTime         Int
+  posterUrl           String?
+  fundingStatus       Status    @default(PROGRESS)
+  category            Category
+  totalTicketCount    Int       @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  artistId            String
+  artist              Artist    @relation(fields: [artistId], references: [id])
+  reservationTimes    ReservationTime[]
+  stories             Story[]
+  usersBoughtPerformances UsersBoughtPerformances[]
+  usersCheeredPerformances UsersCheeredPerformances[]
+  notifications       Notification[]
+}
+
+model ReservationTime {
+  id                  String    @default(cuid()) @id
+  toReservateAt       DateTime 
+  totalTicketCount    Int?       @default(0)
+  performanceId       String
+  performance         Performance @relation(fields: [performanceId], references: [id])
+}
+
+model Story {
+  id                  String    @default(cuid()) @id
+  backgroundUrl       String
+  description         String    @db.Text
+  cheerCount          Int?      @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  performanceId       String
+  performance         Performance @relation(fields: [performanceId], references: [id])
+  usersCheeredPerformances UsersCheeredPerformances[]
+  notifications       Notification[]
+}
+
+model UsersBoughtPerformances {
+  id                  String    @default(cuid()) @id
+  ticketCount         Int?      @default(0)
+  donation            Int?      @default(0)
+  reservationTime     DateTime
+  bank                String
+  paymentKey          String
+  orderId             String
+  receiptUrl          String
+  amount              Int
+  status              Status?    @default(PROGRESS)
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  userId              String
+  user                User       @relation(fields: [userId], references: [id])
+  performanceId       String
+  performance         Performance @relation(fields: [performanceId], references: [id])
+
+  @@index([userId, performanceId])
+}
+
+model UsersCheeredPerformances {
+  id                  String       @default(cuid()) @id
+  userId              String
+  user                User         @relation(fields: [userId], references: [id])
+  performanceId       String?
+  performance         Performance? @relation(fields: [performanceId], references: [id])
+  storyId             String?
+  story               Story?       @relation(fields: [storyId], references: [id])
+
+  @@index([userId, performanceId, storyId])
+}
+
+model Notification {
+  id                  String      @default(cuid())  @id
+  message             String
+  type                String
+  readAt              DateTime?
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  performanceId       String
+  performance         Performance @relation(fields: [performanceId], references: [id])
+  userId              String
+  user                User        @relation(fields: [userId], references: [id])
+  storyId             String
+  story               Story       @relation(fields: [storyId], references: [id])
+}
+
+enum StoryType {
+  NOTICE
+  ADVERTISE
+}
+
+enum Status {
+  PROGRESS
+  SUCCESS
+}
+
+enum Category {
+  MUSIC
+  DANCING
+  ACTING
+  OTHER
 }

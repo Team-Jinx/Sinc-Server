@@ -2,11 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateUserInput {
+  email: String!
+  nickname: String!
+  phone: String
+  profileUrl: String
+}
+
 """Date custom scalar type"""
 scalar Date
 
 type Mutation {
-  create(simpleData: SimpleInput!): Post!
+  create(userData: CreateUserInput!): User!
   remove(id: ID!): Boolean!
 }
 
@@ -16,32 +23,20 @@ type Payload {
   username: String!
 }
 
-type Post {
-  author: User
-  content: String
-  createdAt: Date!
-  id: ID!
-  published: Boolean
-  title: String!
-  updatedAt: Date!
-  viewCount: Int!
-}
-
 type Query {
-  find(content: String, title: String!): [Post!]!
-  postById(id: ID!): Post!
+  find(email: String, nickname: String): [User!]!
   user: Payload!
+  userById(id: ID!): User!
 }
 
-input SimpleInput {
-  content: String
-  tags: [String!]!
-  title: String!
-}
-
+"""유저 테이블"""
 type User {
+  createdAt: Date!
   email: String!
   id: ID!
-  name: String
-  posts: [Post!]
+  isPushNotification: String!
+  nickname: String!
+  phone: String
+  profileUrl: String
+  updatedAt: Date!
 }
