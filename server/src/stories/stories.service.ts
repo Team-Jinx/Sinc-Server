@@ -34,6 +34,12 @@ export class StoriesService {
     return this.prismaService.story.findMany({ where: { type: 'ADVERTISE' }, orderBy: { cheerCount: 'desc' }, take: limit, skip: offset });
   }
 
+  public async findByRandom(): Promise<StoryModel | null> {
+    const storiesCount = await this.prismaService.story.count();
+    const skip = Math.floor(Math.random() * storiesCount);
+    return this.prismaService.story.findFirst({ skip, include: { performance: true } });
+  }
+
   public async update(id: string, story: UpdateStoryInput): Promise<StoryModel> {
     try {
       return await this.prismaService.story.update({

@@ -30,6 +30,13 @@ export class StoriesResolver {
     return user;
   }
 
+  @Query(() => StoryModel)
+  public async findStoryByRandom(): Promise<StoryModel | null> {
+    this.logger.log('findStoryByRandom');
+
+    return this.storiesService.findByRandom();
+  }
+
   @Query(() => [StoryModel])
   public async findStories(@Args() args: FindStoryArgs): Promise<StoryModel[]> {
     this.logger.log('find');
