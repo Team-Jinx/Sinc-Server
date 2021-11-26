@@ -9,7 +9,8 @@ import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
 import { PerformancesModule } from './performances';
-import { ReservationTimeModel } from './reservation-times';
+import { ReservationTimesModule } from './reservation-times';
+import { StoriesModule } from './story';
 import { UsersModule } from './users';
 
 @Module({
@@ -38,7 +39,8 @@ import { UsersModule } from './users';
     UsersModule,
     ArtistsModule,
     PerformancesModule,
-    ReservationTimeModel,
+    ReservationTimesModule,
+    StoriesModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers
