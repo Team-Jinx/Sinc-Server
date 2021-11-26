@@ -30,6 +30,8 @@ model Artist {
   name      String
   agency    String?
   profileUrl String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
   performances Performance[]
 }
 
@@ -59,7 +61,7 @@ model Performance {
 
 model ReservationTime {
   id                  String    @default(cuid()) @id
-  toReserveAt       DateTime 
+  toReserveAt         DateTime 
   totalTicketCount    Int?       @default(0)
   createdAt           DateTime   @default(now())
   updatedAt           DateTime   @updatedAt
