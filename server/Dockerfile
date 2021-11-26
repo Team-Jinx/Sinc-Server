@@ -15,6 +15,7 @@ ENV NODE_ENV=production
 # 앱 소스 추가
 COPY . .
 
+RUN npx prisma migrate deploy
 RUN npx prisma generate
 
 # test
