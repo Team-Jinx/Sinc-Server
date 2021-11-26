@@ -1,5 +1,5 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { Artist } from 'src/artists';
+import { ArtistModel } from 'src/artists';
 
 import { Category, Performance, Status } from '.prisma/client';
 
@@ -50,8 +50,8 @@ export class PerformanceModel implements Performance {
   @Field(() => ID)
   public artistId!: string;
 
-  @Field(() => Artist)
-  public artist?: Artist;
+  @Field(() => ArtistModel)
+  public artist?: ArtistModel;
 
   // @Field(() => [ReservationTime])
   // public reservationTimes!: ReservationTime[];

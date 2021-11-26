@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService, PrismaError } from 'src/prisma';
 
-import { Artist } from '.';
+import { ArtistModel } from '.';
 import { CreateArtistInput, FindArtistArgs, UpdateArtistInput } from './dtos';
 
 @Injectable()
@@ -11,25 +11,25 @@ export class ArtistsService {
     private readonly prismaService: PrismaService, // private util: UtilService,
   ) {}
 
-  public async create(data: CreateArtistInput): Promise<Artist> {
+  public async create(data: CreateArtistInput): Promise<ArtistModel> {
     return this.prismaService.artist.create({ data });
   }
 
-  // public async readWithAuthor(id: string): Promise<Artist | null> {
+  // public async readWithAuthor(id: string): Promise<ArtistModel | null> {
   //   return this.prismaService.post.findUnique({ where: { id } }).author();
   // }
 
-  public async read(id: string): Promise<Artist | null> {
+  public async read(id: string): Promise<ArtistModel | null> {
     return this.prismaService.artist.findUnique({
       where: { id },
     });
   }
 
-  public async find(args: FindArtistArgs): Promise<Artist[]> {
+  public async find(args: FindArtistArgs): Promise<ArtistModel[]> {
     return this.prismaService.artist.findMany({ where: args });
   }
 
-  public async update(id: string, artist: UpdateArtistInput): Promise<Artist> {
+  public async update(id: string, artist: UpdateArtistInput): Promise<ArtistModel> {
     try {
       return await this.prismaService.artist.update({
         data: {

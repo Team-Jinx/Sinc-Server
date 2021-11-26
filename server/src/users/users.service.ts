@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService, PrismaError } from 'src/prisma';
 
 import { CreateUserInput, FindUserArgs } from './dtos';
-import { User } from './models';
+import { UserModel } from './models';
 
 @Injectable()
 export class UsersService {
@@ -11,25 +11,25 @@ export class UsersService {
     private readonly prismaService: PrismaService, // private util: UtilService,
   ) {}
 
-  public async create(data: CreateUserInput): Promise<User> {
+  public async create(data: CreateUserInput): Promise<UserModel> {
     return this.prismaService.user.create({ data });
   }
 
-  // public async readWithAuthor(id: string): Promise<User | null> {
+  // public async readWithAuthor(id: string): Promise<UserModel | null> {
   //   return this.prismaService.post.findUnique({ where: { id } }).author();
   // }
 
-  public async read(id: string): Promise<User | null> {
+  public async read(id: string): Promise<UserModel | null> {
     return this.prismaService.user.findUnique({
       where: { id },
     });
   }
 
-  public async find(args: FindUserArgs): Promise<User[]> {
+  public async find(args: FindUserArgs): Promise<UserModel[]> {
     return this.prismaService.user.findMany({ where: args });
   }
 
-  public async update(id: string, user: FindUserArgs): Promise<User> {
+  public async update(id: string, user: FindUserArgs): Promise<UserModel> {
     try {
       return await this.prismaService.user.update({
         data: {

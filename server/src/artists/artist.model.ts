@@ -1,7 +1,10 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { PerformanceModel } from 'src/performances';
+
+import { Artist } from '.prisma/client';
 
 @ObjectType({ description: '아티스트 테이블' })
-export class Artist {
+export class ArtistModel implements Artist {
   @Field(() => ID)
   public id!: string;
 
@@ -9,11 +12,11 @@ export class Artist {
   public name!: string;
 
   @Field(() => String, { nullable: true })
-  public agency?: string | null;
+  public agency!: string | null;
 
   @Field(() => String, { nullable: true })
-  public profileUrl?: string | null;
+  public profileUrl!: string | null;
 
-  // @Field(() => [Performance])
-  // public performances!: Performance[];
+  @Field(() => [PerformanceModel])
+  public performances?: PerformanceModel[];
 }

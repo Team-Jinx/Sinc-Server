@@ -5,17 +5,17 @@ import { ForbiddenError } from 'apollo-server-express';
 import { JwtAuthGuard } from '../auth';
 import { Logger, ReqUser, Roles, RolesGuard } from '../common';
 import { CreateUserInput, FindUserArgs } from './dtos';
-import { Payload, User } from './models';
+import { Payload, UserModel } from './models';
 import { UsersService } from './users.service';
 
-@Resolver(() => User)
+@Resolver(() => UserModel)
 export class UsersResolver {
   constructor(private readonly logger: Logger, private usersService: UsersService) {
     this.logger.setContext(UsersResolver.name);
   }
 
   // @ResolveField()
-  // public async author(@Root() user: User): Promise<User | null> {
+  // public async author(@Root() user: UserModel): Promise<UserModel | null> {
   //   return this.usersService.readWithAuthor(user.id);
   // }
 
@@ -31,15 +31,15 @@ export class UsersResolver {
     return user;
   }
 
-  @Mutation(() => User)
-  public async createUser(@Args('userData') userData: CreateUserInput): Promise<User> {
+  @Mutation(() => UserModel)
+  public async createUser(@Args('userData') userData: CreateUserInput): Promise<UserModel> {
     this.logger.log('create');
 
     return this.usersService.create(userData);
   }
 
-  @Query(() => User)
-  public async findUserById(@Args('id', { type: () => ID }) id: string): Promise<User> {
+  @Query(() => UserModel)
+  public async findUserById(@Args('id', { type: () => ID }) id: string): Promise<UserModel> {
     this.logger.log('read');
 
     const user = await this.usersService.read(id);
@@ -49,8 +49,8 @@ export class UsersResolver {
     return user;
   }
 
-  @Query(() => [User])
-  public async findUser(@Args() args: FindUserArgs): Promise<User[]> {
+  @Query(() => [UserModel])
+  public async findUser(@Args() args: FindUserArgs): Promise<UserModel[]> {
     this.logger.log('find');
 
     return this.usersService.find(args);
