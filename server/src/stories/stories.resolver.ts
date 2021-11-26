@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { StoryModel } from '.';
 import { Logger } from '../common';
@@ -35,6 +35,16 @@ export class StoriesResolver {
     this.logger.log('find');
 
     return this.storiesService.find(args);
+  }
+
+  @Query(() => [StoryModel])
+  public async findPopularStories(
+    @Args('limit', { type: () => Int }) limit: number,
+    @Args('offset', { type: () => Int }) offset: number,
+  ): Promise<StoryModel[]> {
+    this.logger.log('findPopularStories');
+
+    return this.storiesService.findPopularStories(limit, offset);
   }
 
   @Mutation(() => StoryModel)

@@ -30,6 +30,10 @@ export class StoriesService {
     return this.prismaService.story.findMany({ where: args });
   }
 
+  public async findPopularStories(limit: number, offset: number): Promise<StoryModel[]> {
+    return this.prismaService.story.findMany({ orderBy: { cheerCount: 'desc' }, take: limit, skip: offset });
+  }
+
   public async update(id: string, story: UpdateStoryInput): Promise<StoryModel> {
     try {
       return await this.prismaService.story.update({
