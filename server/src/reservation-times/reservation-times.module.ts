@@ -8,5 +8,6 @@ import { ReservationTimesService } from './reservation-times.service';
 @Module({
   imports: [PrismaModule],
   providers: [ReservationTimesResolver, ReservationTimesService, DateScalar],
+  exports: [ReservationTimesService],
 })
 export class ReservationTimesModule {}

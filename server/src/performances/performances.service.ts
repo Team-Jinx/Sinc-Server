@@ -4,6 +4,7 @@ import { PrismaService, PrismaError } from 'src/prisma';
 
 import { PerformanceModel } from '.';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
+import { Category } from '.prisma/client';
 
 @Injectable()
 export class PerformancesService {
@@ -15,10 +16,6 @@ export class PerformancesService {
     return this.prismaService.performance.create({ data });
   }
 
-  // public async readWithAuthor(id: string): Promise<PerformanceModel | null> {
-  //   return this.prismaService.post.findUnique({ where: { id } }).author();
-  // }
-
   public async read(id: string): Promise<PerformanceModel | null> {
     return this.prismaService.performance.findUnique({
       where: { id },
@@ -26,7 +23,16 @@ export class PerformancesService {
   }
 
   public async find(args: FindPerformanceArgs): Promise<PerformanceModel[]> {
-    return this.prismaService.performance.findMany({ where: args });
+    return this.prismaService.performance.findMany({ where: args, include: { artist: true, reservationTimes: true } });
+  }
+
+  public async findPopularPerformances(category: Category): Promise<PerformanceModel[]> {
+    return this.prismaService.performance.findMany({
+      where: { category },
+      include: { artist: true, reservationTimes: true },
+      orderBy: { cheerCount: 'desc' },
+      take: 3,
+    });
   }
 
   public async update(id: string, performance: UpdatePerformanceInput): Promise<PerformanceModel> {

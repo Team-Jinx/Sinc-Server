@@ -8,5 +8,6 @@ import { StoriesService } from './stories.service';
 @Module({
   imports: [PrismaModule],
   providers: [StoriesResolver, StoriesService, DateScalar],
+  exports: [StoriesService],
 })
 export class StoriesModule {}

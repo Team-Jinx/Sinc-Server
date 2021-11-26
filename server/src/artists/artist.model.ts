@@ -19,4 +19,7 @@ export class ArtistModel implements Artist {
 
   @Field(() => [PerformanceModel])
   public performances?: PerformanceModel[];
+
+  public createdAt!: Date;
+  public updatedAt!: Date;
 }

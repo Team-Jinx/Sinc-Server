@@ -22,6 +22,7 @@ export class StoriesService {
   public async read(id: string): Promise<StoryModel | null> {
     return this.prismaService.story.findUnique({
       where: { id },
+      include: { performance: true },
     });
   }
 

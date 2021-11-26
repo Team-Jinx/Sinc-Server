@@ -1,14 +1,20 @@
 import { NotFoundException } from '@nestjs/common';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { ReservationTimeModel, ReservationTimesService } from 'src/reservation-times';
 
 import { PerformanceModel } from '.';
 import { Logger } from '../common';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
 import { PerformancesService } from './performances.service';
+import { Category } from '.prisma/client';
 
 @Resolver(() => PerformanceModel)
 export class PerformancesResolver {
-  constructor(private readonly logger: Logger, private performancesService: PerformancesService) {
+  constructor(
+    private readonly logger: Logger,
+    private performancesService: PerformancesService,
+    private reservationTimesService: ReservationTimesService,
+  ) {
     this.logger.setContext(PerformancesResolver.name);
   }
 
@@ -37,6 +43,13 @@ export class PerformancesResolver {
     return this.performancesService.find(args);
   }
 
+  @Query(() => [PerformanceModel])
+  public async findPopularPerformances(@Args('category', { type: () => String }) category: Category): Promise<PerformanceModel[]> {
+    this.logger.log('findPopularPerformances');
+
+    return this.performancesService.findPopularPerformances(category);
+  }
+
   @Mutation(() => PerformanceModel)
   public async updatePerformance(
     @Args('id', { type: () => ID }) id: string,
@@ -52,5 +65,10 @@ export class PerformancesResolver {
     this.logger.log('remove');
 
     return this.performancesService.remove(id);
+  }
+
+  @ResolveField()
+  public async reservationTimes(@Parent() performance: PerformanceModel): Promise<ReservationTimeModel | null> {
+    return this.reservationTimesService.read(performance.id);
   }
 }
