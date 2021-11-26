@@ -92,3 +92,6 @@ jspm_packages/
 
 # DynamoDB Local files
 .dynamodb/
+
+# GraphQL
+src/schema.gql
