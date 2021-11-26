@@ -41,7 +41,7 @@ export class UsersResolver {
   @Query(() => User)
   public async userById(@Args('id', { type: () => ID }) id: string): Promise<User> {
     this.logger.log('read');
-    this.logger.log(id);
+
     const user = await this.usersService.read(id);
 
     if (!user) throw new NotFoundException('NotFoundData');
