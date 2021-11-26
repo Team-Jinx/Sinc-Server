@@ -59,7 +59,7 @@ model Performance {
 
 model ReservationTime {
   id                  String    @default(cuid()) @id
-  toReservateAt       DateTime 
+  toReserveAt       DateTime 
   totalTicketCount    Int?       @default(0)
   performanceId       String
   performance         Performance @relation(fields: [performanceId], references: [id])
