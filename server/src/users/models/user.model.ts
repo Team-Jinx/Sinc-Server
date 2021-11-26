@@ -1,4 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { NotificationModel } from 'src/shared/notification';
+import { UsersBoughtPerformancesModel } from 'src/users-bought-performances';
+import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
 import { User } from '.prisma/client';
 
@@ -28,12 +31,12 @@ export class UserModel implements User {
   @Field(() => Date)
   public updatedAt!: Date;
 
-  // @Field(() => [UsersBoughtPerformances])
-  // public usersBoughtPerformances!: UsersBoughtPerformances[];
+  @Field(() => [UsersBoughtPerformancesModel])
+  public usersBoughtPerformances?: UsersBoughtPerformancesModel[];
 
-  // @Field(() => [UsersCheeredPerformances])
-  // public usersCheeredPerformances!: UsersCheeredPerformances[];
+  @Field(() => [UsersCheeredPerformancesModel])
+  public usersCheeredPerformances?: UsersCheeredPerformancesModel[];
 
-  // @Field(() => [Notification])
-  // public notifications!: Notification[];
+  @Field(() => [NotificationModel])
+  public notifications?: NotificationModel[];
 }

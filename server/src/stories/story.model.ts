@@ -1,5 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { PerformanceModel } from 'src/performances';
+import { NotificationModel } from 'src/shared/notification';
+import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
 import { Story } from '.prisma/client';
 
@@ -15,4 +17,6 @@ export class StoryModel implements Story {
   public updatedAt!: Date;
   public performanceId!: string;
   public performance?: PerformanceModel;
+  public usersCheeredPerformances?: UsersCheeredPerformancesModel[];
+  public notifications?: NotificationModel[];
 }

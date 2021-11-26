@@ -1,5 +1,10 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { ArtistModel } from 'src/artists';
+import { ReservationTimeModel } from 'src/reservation-times';
+import { NotificationModel } from 'src/shared/notification';
+import { StoryModel } from 'src/stories';
+import { UsersBoughtPerformancesModel } from 'src/users-bought-performances';
+import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
 import { Category, Performance, Status } from '.prisma/client';
 
@@ -53,18 +58,18 @@ export class PerformanceModel implements Performance {
   @Field(() => ArtistModel)
   public artist?: ArtistModel;
 
-  // @Field(() => [ReservationTime])
-  // public reservationTimes!: ReservationTime[];
+  @Field(() => [ReservationTimeModel])
+  public reservationTimes?: ReservationTimeModel[];
 
-  // @Field(() => [Story])
-  // public stories!: Story[];
+  @Field(() => [StoryModel])
+  public stories?: StoryModel[];
 
-  // @Field(() => [UsersBoughtPerformances])
-  // public usersBoughtPerformances!: UsersBoughtPerformances[];
+  @Field(() => [UsersBoughtPerformancesModel])
+  public usersBoughtPerformances?: UsersBoughtPerformancesModel[];
 
-  // @Field(() => [UsersCheeredPerformances])
-  // public usersCheeredPerformances!: UsersCheeredPerformances[];
+  @Field(() => [UsersCheeredPerformancesModel])
+  public usersCheeredPerformances?: UsersCheeredPerformancesModel[];
 
-  // @Field(() => [Notification])
-  // public notifications!: Notification[];
+  @Field(() => [NotificationModel])
+  public notifications?: NotificationModel[];
 }
