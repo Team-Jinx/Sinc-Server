@@ -26,9 +26,6 @@ export class CreatePerformanceInput {
   @Field()
   public posterUrl?: string;
 
-  @Field({ nullable: true })
-  public showtime?: string;
-
   @Field()
   @IsIn(Object.keys(Category))
   public category!: Category;
