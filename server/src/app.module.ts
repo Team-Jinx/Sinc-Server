@@ -10,8 +10,9 @@ import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
 import { PerformancesModule } from './performances';
 import { ReservationTimesModule } from './reservation-times';
-import { StoriesModule } from './story';
+import { StoriesModule } from './stories';
 import { UsersModule } from './users';
+import { UsersBoughtPerformancesModule } from './users-bought-performances';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { UsersModule } from './users';
     PerformancesModule,
     ReservationTimesModule,
     StoriesModule,
+    UsersBoughtPerformancesModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers
