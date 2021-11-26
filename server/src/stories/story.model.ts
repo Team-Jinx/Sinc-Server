@@ -1,4 +1,5 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { StoryType } from '@prisma/client';
 import { PerformanceModel } from 'src/performances';
 import { NotificationModel } from 'src/shared/notification';
 import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
@@ -12,6 +13,9 @@ export class StoryModel implements Story {
 
   @Field(() => Int)
   public cheerCount!: number | null;
+
+  @Field(() => String)
+  public type!: StoryType | null;
 
   public backgroundUrl!: string;
   public description!: string;

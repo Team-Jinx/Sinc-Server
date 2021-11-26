@@ -74,6 +74,7 @@ model Story {
   backgroundUrl       String
   description         String    @db.Text
   cheerCount          Int?      @default(0)
+  type                StoryType? @default(ADVERTISE)
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   performanceId       String
