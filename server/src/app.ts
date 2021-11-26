@@ -24,7 +24,7 @@ async function bootstrap(): Promise<void> {
   // https://docs.nestjs.com/techniques/validation
   app.useGlobalPipes(
     new ValidationPipe({
-      disableErrorMessages: true,
+      // disableErrorMessages: true,
       transform: true, // transform object to DTO class
     }),
   );
