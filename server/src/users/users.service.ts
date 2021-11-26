@@ -29,7 +29,7 @@ export class UsersService {
     return this.prismaService.user.findMany({ where: args });
   }
 
-  public async updateUser(id: string, user: FindUserArgs): Promise<User> {
+  public async update(id: string, user: FindUserArgs): Promise<User> {
     try {
       return await this.prismaService.user.update({
         data: {

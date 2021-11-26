@@ -32,14 +32,14 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  public async create(@Args('userData') userData: CreateUserInput): Promise<User> {
+  public async createUser(@Args('userData') userData: CreateUserInput): Promise<User> {
     this.logger.log('create');
 
     return this.usersService.create(userData);
   }
 
   @Query(() => User)
-  public async userById(@Args('id', { type: () => ID }) id: string): Promise<User> {
+  public async findUserById(@Args('id', { type: () => ID }) id: string): Promise<User> {
     this.logger.log('read');
 
     const user = await this.usersService.read(id);
@@ -50,14 +50,14 @@ export class UsersResolver {
   }
 
   @Query(() => [User])
-  public async find(@Args() args: FindUserArgs): Promise<User[]> {
+  public async findUser(@Args() args: FindUserArgs): Promise<User[]> {
     this.logger.log('find');
 
     return this.usersService.find(args);
   }
 
   @Mutation(() => Boolean)
-  public async remove(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
+  public async removeUser(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
     this.logger.log('remove');
 
     return this.usersService.remove(id);
