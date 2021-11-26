@@ -4,6 +4,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
+import { ArtistsModule } from './artists';
 import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
@@ -33,6 +34,7 @@ import { UsersModule } from './users';
     CommonModule, // Global
     BaseModule,
     UsersModule,
+    ArtistsModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers
