@@ -61,6 +61,8 @@ model ReservationTime {
   id                  String    @default(cuid()) @id
   toReserveAt       DateTime 
   totalTicketCount    Int?       @default(0)
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
   performanceId       String
   performance         Performance @relation(fields: [performanceId], references: [id])
 }
@@ -101,6 +103,8 @@ model UsersBoughtPerformances {
 
 model UsersCheeredPerformances {
   id                  String       @default(cuid()) @id
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
   userId              String
   user                User         @relation(fields: [userId], references: [id])
   performanceId       String?

@@ -12,6 +12,9 @@ export class UsersBoughtPerformancesModel implements UsersBoughtPerformances {
   @Field(() => Int)
   public donation!: number | null;
 
+  @Field(() => String)
+  public status!: Status | null;
+
   public id!: string;
   public reservationTime!: Date;
   public bank!: string;
@@ -19,7 +22,6 @@ export class UsersBoughtPerformancesModel implements UsersBoughtPerformances {
   public orderId!: string;
   public receiptUrl!: string;
   public amount!: number;
-  public status!: Status | null;
   public createdAt!: Date;
   public updatedAt!: Date;
   public userId!: string;

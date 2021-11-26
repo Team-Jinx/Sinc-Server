@@ -12,6 +12,8 @@ export class ReservationTimeModel implements ReservationTime {
   public totalTicketCount!: number | null;
 
   public toReserveAt!: Date;
+  public createdAt!: Date;
+  public updatedAt!: Date;
   public performanceId!: string;
   public performance?: PerformanceModel;
 }
