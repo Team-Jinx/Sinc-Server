@@ -7,8 +7,13 @@ import { StoryModel } from 'src/stories';
 import { UsersBoughtPerformancesModel } from 'src/users-bought-performances';
 import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
+import { Performance } from '.prisma/client';
+
 @ObjectType()
-export class FindPerformanceById {
+export class FindPerformanceById implements Performance {
+  @Field(() => Date)
+  public toEndAt!: Date;
+
   @Field(() => ID)
   public id!: string;
 
