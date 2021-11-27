@@ -12,7 +12,7 @@ export class UsersBoughtPerformancesService {
   ) {}
 
   public async create(data: CreateUsersBoughtPerformancesInput): Promise<UsersBoughtPerformancesModel> {
-    return this.prismaService.usersBoughtPerformances.create({ data });
+    return this.prismaService.usersBoughtPerformances.create({ data, include: { performance: true } });
   }
 
   // public async readWithAuthor(id: string): Promise<UsersBoughtPerformancesModel | null> {
