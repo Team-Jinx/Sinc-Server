@@ -12,7 +12,15 @@ export class UsersBoughtPerformancesService {
   ) {}
 
   public async create(data: CreateUsersBoughtPerformancesInput): Promise<UsersBoughtPerformancesModel> {
-    return this.prismaService.usersBoughtPerformances.create({ data, include: { performance: true } });
+    const result = await this.prismaService.$transaction([
+      this.prismaService.performance.update({
+        where: { id: data.performanceId },
+        data: { totalTicketCount: { increment: data.ticketCount } },
+      }),
+      this.prismaService.usersBoughtPerformances.create({ data, include: { performance: true } }),
+    ]);
+
+    return result[1];
   }
 
   // public async readWithAuthor(id: string): Promise<UsersBoughtPerformancesModel | null> {
