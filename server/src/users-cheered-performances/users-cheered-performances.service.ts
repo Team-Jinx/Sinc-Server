@@ -12,7 +12,8 @@ export class UsersCheeredPerformancesService {
   ) {}
 
   public async create(data: CreateUsersCheeredPerformancesInput): Promise<UsersCheeredPerformancesModel> {
-    return this.prismaService.usersCheeredPerformances.create({ data });
+    await this.prismaService.performance.update({ where: { id: data.performanceId }, data: { cheerCount: { increment: 1 } } });
+    return this.prismaService.usersCheeredPerformances.create({ data, include: { performance: true } });
   }
 
   // public async readWithAuthor(id: string): Promise<UsersCheeredPerformancesModel | null> {
@@ -49,6 +50,7 @@ export class UsersCheeredPerformancesService {
 
   public async remove(id: string): Promise<boolean> {
     const result = await this.prismaService.usersCheeredPerformances.delete({ where: { id } });
+    await this.prismaService.performance.update({ where: { id: result.performanceId }, data: { cheerCount: { decrement: 1 } } });
 
     return !!result;
   }
