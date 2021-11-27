@@ -46,6 +46,9 @@ export class PerformanceModel implements Performance {
   @Field(() => Int, { defaultValue: 0 })
   public totalTicketCount!: number;
 
+  @Field(() => Date)
+  public toEndAt!: Date;
+
   @Field(() => Date, { defaultValue: Date.now() })
   public createdAt!: Date;
 

@@ -48,6 +48,7 @@ model Performance {
   fundingStatus       Status    @default(PROGRESS)
   category            Category
   totalTicketCount    Int       @default(0)
+  toEndAt             DateTime  @default(now())
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   artistId            String
