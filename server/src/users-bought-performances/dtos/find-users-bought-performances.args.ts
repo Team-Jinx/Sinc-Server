@@ -1,14 +1,11 @@
-import { ArgsType } from '@nestjs/graphql';
-import { IsDate, IsIn, IsOptional, IsString } from 'class-validator';
+import { ArgsType, Field } from '@nestjs/graphql';
+import { IsIn, IsOptional, IsString } from 'class-validator';
 
 import { Status } from '.prisma/client';
 
 @ArgsType()
 export class FindUsersBoughtPerformancesArgs {
-  @IsOptional()
-  @IsDate()
-  public reservationTime?: Date;
-
+  @Field()
   @IsOptional()
   @IsIn(Object.keys(Status))
   public status?: Status;
@@ -20,4 +17,8 @@ export class FindUsersBoughtPerformancesArgs {
   @IsOptional()
   @IsString()
   public performanceId?: string;
+
+  @IsOptional()
+  @IsString()
+  public reservationTimeId?: string;
 }

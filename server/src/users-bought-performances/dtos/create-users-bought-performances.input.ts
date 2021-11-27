@@ -1,9 +1,10 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, ID, InputType, Int } from '@nestjs/graphql';
+import { IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateUsersBoughtPerformancesInput {
-  @Field()
-  public reservationTime!: Date;
+  @Field(() => ID)
+  public reservationTimeId!: string;
 
   @Field()
   public bank!: string;
@@ -23,6 +24,13 @@ export class CreateUsersBoughtPerformancesInput {
   @Field()
   public userId!: string;
 
-  @Field()
+  @Field(() => ID)
   public performanceId!: string;
+
+  @Field(() => Int)
+  @IsOptional()
+  public donation?: number;
+
+  @Field(() => Int)
+  public ticketCount!: number;
 }

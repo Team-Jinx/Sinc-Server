@@ -67,6 +67,7 @@ model ReservationTime {
   updatedAt           DateTime   @updatedAt
   performanceId       String
   performance         Performance @relation(fields: [performanceId], references: [id])
+  usersBoughtPerformances UsersBoughtPerformances[]
 }
 
 model Story {
@@ -87,7 +88,6 @@ model UsersBoughtPerformances {
   id                  String    @default(cuid()) @id
   ticketCount         Int?      @default(0)
   donation            Int?      @default(0)
-  reservationTime     DateTime
   bank                String
   paymentKey          String
   orderId             String
@@ -98,6 +98,8 @@ model UsersBoughtPerformances {
   updatedAt           DateTime   @updatedAt
   userId              String
   user                User       @relation(fields: [userId], references: [id])
+  reservationTimeId   String     @default("")
+  reservationTime     ReservationTime @relation(fields: [reservationTimeId], references: [id])
   performanceId       String
   performance         Performance @relation(fields: [performanceId], references: [id])
 

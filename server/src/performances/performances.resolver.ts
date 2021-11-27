@@ -5,6 +5,7 @@ import { ReservationTimeModel, ReservationTimesService } from 'src/reservation-t
 import { PerformanceModel } from '.';
 import { Logger } from '../common';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
+import { FindPerformanceById } from './performances.model';
 import { PerformancesService } from './performances.service';
 import { Category } from '.prisma/client';
 
@@ -25,15 +26,15 @@ export class PerformancesResolver {
     return this.performancesService.create(performanceData);
   }
 
-  @Query(() => PerformanceModel)
-  public async findPerformanceById(@Args('id', { type: () => ID }) id: string): Promise<PerformanceModel> {
+  @Query(() => FindPerformanceById, { description: '공연 한개 조회' })
+  public async findPerformanceById(@Args('id', { type: () => ID }) id: string): Promise<FindPerformanceById> {
     this.logger.log('read');
 
-    const user = await this.performancesService.read(id);
+    const performance = await this.performancesService.read(id);
 
-    if (!user) throw new NotFoundException('NotFoundData');
+    if (!performance) throw new NotFoundException('NotFoundData');
 
-    return user;
+    return performance;
   }
 
   @Query(() => [PerformanceModel])

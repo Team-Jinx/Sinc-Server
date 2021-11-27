@@ -17,11 +17,13 @@ export class StoryModel implements Story {
   @Field(() => String)
   public type!: StoryType | null;
 
+  @Field(() => ID)
+  public performanceId!: string;
+
   public backgroundUrl!: string;
   public description!: string;
   public createdAt!: Date;
   public updatedAt!: Date;
-  public performanceId!: string;
   public performance?: PerformanceModel;
   public usersCheeredPerformances?: UsersCheeredPerformancesModel[];
   public notifications?: NotificationModel[];

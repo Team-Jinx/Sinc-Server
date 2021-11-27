@@ -1,5 +1,6 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { PerformanceModel } from 'src/performances';
+import { ReservationTimeModel } from 'src/reservation-times';
 import { UserModel } from 'src/users';
 
 import { Status, UsersBoughtPerformances } from '.prisma/client';
@@ -15,8 +16,9 @@ export class UsersBoughtPerformancesModel implements UsersBoughtPerformances {
   @Field(() => String)
   public status!: Status | null;
 
+  @Field(() => ID)
   public id!: string;
-  public reservationTime!: Date;
+
   public bank!: string;
   public paymentKey!: string;
   public orderId!: string;
@@ -26,6 +28,8 @@ export class UsersBoughtPerformancesModel implements UsersBoughtPerformances {
   public updatedAt!: Date;
   public userId!: string;
   public user?: UserModel;
+  public reservationTimeId!: string;
+  public reservationTime?: ReservationTimeModel;
   public performanceId!: string;
   public performance?: PerformanceModel;
 }

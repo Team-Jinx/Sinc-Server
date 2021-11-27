@@ -1,7 +1,7 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateUsersBoughtPerformancesInput {
-  @Field()
-  public reservationTime!: Date;
+  @Field(() => ID)
+  public reservationTimeId!: string;
 }

@@ -12,6 +12,7 @@ import { PerformancesModule } from './performances';
 import { ReservationTimesModule } from './reservation-times';
 import { StoriesModule } from './stories';
 import { UsersModule } from './users';
+import { UsersBoughtPerformancesModule } from './users-bought-performances';
 import { UsersCheeredPerformancesModule } from './users-cheered-performances';
 
 @Module({
@@ -43,6 +44,7 @@ import { UsersCheeredPerformancesModule } from './users-cheered-performances';
     ReservationTimesModule,
     StoriesModule,
     UsersCheeredPerformancesModule,
+    UsersBoughtPerformancesModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers
