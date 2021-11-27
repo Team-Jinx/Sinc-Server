@@ -29,6 +29,25 @@ export class UsersBoughtPerformancesService {
     return this.prismaService.usersBoughtPerformances.findMany({ where: args });
   }
 
+  public async findTicketStatistics(performanceId: string): Promise<{ amount: number; ticketCount: number }> {
+    const ticketSum = await this.prismaService.usersBoughtPerformances.aggregate({
+      where: { performanceId },
+      _sum: {
+        amount: true,
+        ticketCount: true,
+        donation: true,
+      },
+    });
+    const { amount, donation, ticketCount } = ticketSum._sum;
+    const result = { amount: 0, ticketCount: 0 };
+
+    if (ticketCount) result.ticketCount += ticketCount;
+    if (amount) result.amount += amount;
+    if (donation) result.amount += donation;
+
+    return result;
+  }
+
   public async update(id: string, usersBoughtPerformances: UpdateUsersBoughtPerformancesInput): Promise<UsersBoughtPerformancesModel> {
     try {
       return await this.prismaService.usersBoughtPerformances.update({

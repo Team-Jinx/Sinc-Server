@@ -1,11 +1,11 @@
 import { NotFoundException } from '@nestjs/common';
 import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { ReservationTimeModel, ReservationTimesService } from 'src/reservation-times';
+import { UsersBoughtPerformancesService } from 'src/users-bought-performances';
 
-import { PerformanceModel } from '.';
+import { FindPerformanceById, PerformanceModel } from '.';
 import { Logger } from '../common';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
-import { FindPerformanceById } from './performances.model';
 import { PerformancesService } from './performances.service';
 import { Category } from '.prisma/client';
 
@@ -15,6 +15,7 @@ export class PerformancesResolver {
     private readonly logger: Logger,
     private performancesService: PerformancesService,
     private reservationTimesService: ReservationTimesService,
+    private usersBoughtPerformancesService: UsersBoughtPerformancesService,
   ) {
     this.logger.setContext(PerformancesResolver.name);
   }
@@ -34,7 +35,11 @@ export class PerformancesResolver {
 
     if (!performance) throw new NotFoundException('NotFoundData');
 
-    return performance;
+    const reservationTimeMinMax = await this.reservationTimesService.findReservationTimeMinMax(id);
+    const { ticketCount, amount } = await this.usersBoughtPerformancesService.findTicketStatistics(id);
+    const a = { ...performance, ...reservationTimeMinMax, amount, ticketCount };
+    console.log(a);
+    return a;
   }
 
   @Query(() => [PerformanceModel])

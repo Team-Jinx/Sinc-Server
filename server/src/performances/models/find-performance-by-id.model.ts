@@ -7,6 +7,8 @@ import { StoryModel } from 'src/stories';
 import { UsersBoughtPerformancesModel } from 'src/users-bought-performances';
 import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
+import { ReserveAt } from './reserve-at.model';
+
 @ObjectType()
 export class FindPerformanceById {
   @Field(() => ID)
@@ -77,4 +79,7 @@ export class FindPerformanceById {
 
   @Field(() => Int)
   public amount!: number;
+
+  public _min?: ReserveAt;
+  public _max?: ReserveAt;
 }

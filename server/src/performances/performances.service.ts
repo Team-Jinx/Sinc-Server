@@ -4,7 +4,6 @@ import { PrismaService, PrismaError } from 'src/prisma';
 
 import { PerformanceModel } from '.';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
-import { FindPerformanceById } from './performances.model';
 import { Category } from '.prisma/client';
 
 @Injectable()
@@ -17,29 +16,11 @@ export class PerformancesService {
     return this.prismaService.performance.create({ data });
   }
 
-  public async read(id: string): Promise<FindPerformanceById | null> {
-    const performance = await this.prismaService.performance.findUnique({
+  public async read(id: string): Promise<PerformanceModel | null> {
+    return this.prismaService.performance.findUnique({
       where: { id },
-      include: { stories: true, reservationTimes: true, artist: true },
+      include: { stories: true, artist: true },
     });
-
-    if (!performance) return null;
-
-    const usersBoughtPerformancesStatistics = await this.prismaService.usersBoughtPerformances.aggregate({
-      where: { performanceId: id },
-      _sum: {
-        amount: true,
-        ticketCount: true,
-        donation: true,
-      },
-    });
-    const { amount, donation, ticketCount } = usersBoughtPerformancesStatistics._sum;
-    const result = { ...performance, ticketCount, amount: 0 };
-
-    if (amount) result.amount += amount;
-    if (donation) result.amount += donation;
-
-    return result;
   }
 
   public async find(args: FindPerformanceArgs): Promise<PerformanceModel[]> {

@@ -8,5 +8,6 @@ import { UsersBoughtPerformancesService } from './users-bought-performances.serv
 @Module({
   imports: [PrismaModule],
   providers: [UsersBoughtPerformancesResolver, UsersBoughtPerformancesService, DateScalar],
+  exports: [UsersBoughtPerformancesService],
 })
 export class UsersBoughtPerformancesModule {}
