@@ -113,10 +113,10 @@ model UsersCheeredPerformances {
   updatedAt           DateTime     @updatedAt
   userId              String
   user                User         @relation(fields: [userId], references: [id])
-  performanceId       String?
-  performance         Performance? @relation(fields: [performanceId], references: [id])
-  storyId             String?
-  story               Story?       @relation(fields: [storyId], references: [id])
+  performanceId       String
+  performance         Performance  @relation(fields: [performanceId], references: [id])
+  storyId             String
+  story               Story        @relation(fields: [storyId], references: [id])
 
   @@index([userId, performanceId, storyId])
 }

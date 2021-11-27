@@ -11,8 +11,8 @@ export class UsersCheeredPerformancesModel implements UsersCheeredPerformances {
   public updatedAt!: Date;
   public userId!: string;
   public user?: UserModel;
-  public performanceId!: string | null;
+  public performanceId!: string;
   public performance?: PerformanceModel;
-  public storyId!: string | null;
+  public storyId!: string;
   public story?: StoryModel;
 }
