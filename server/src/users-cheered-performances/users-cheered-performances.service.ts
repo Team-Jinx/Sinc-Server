@@ -13,7 +13,7 @@ export class UsersCheeredPerformancesService {
 
   public async create(data: CreateUsersCheeredPerformancesInput): Promise<UsersCheeredPerformancesModel> {
     await this.prismaService.performance.update({ where: { id: data.performanceId }, data: { cheerCount: { increment: 1 } } });
-    return this.prismaService.usersCheeredPerformances.create({ data, include: { performance: true } });
+    return this.prismaService.usersCheeredPerformances.create({ data });
   }
 
   // public async readWithAuthor(id: string): Promise<UsersCheeredPerformancesModel | null> {
