@@ -19,7 +19,7 @@ export class PerformancesService {
   public async read(id: string): Promise<PerformanceModel | null> {
     return this.prismaService.performance.findUnique({
       where: { id },
-      include: { stories: true, artist: true },
+      include: { stories: true, artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc' } } },
     });
   }
 

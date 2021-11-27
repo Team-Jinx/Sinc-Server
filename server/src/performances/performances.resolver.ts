@@ -35,11 +35,8 @@ export class PerformancesResolver {
 
     if (!performance) throw new NotFoundException('NotFoundData');
 
-    const reservationTimeMinMax = await this.reservationTimesService.findReservationTimeMinMax(id);
     const { ticketCount, amount } = await this.usersBoughtPerformancesService.findTicketStatistics(id);
-    const a = { ...performance, ...reservationTimeMinMax, amount, ticketCount };
-    console.log(a);
-    return a;
+    return { ...performance, amount, ticketCount };
   }
 
   @Query(() => [PerformanceModel])

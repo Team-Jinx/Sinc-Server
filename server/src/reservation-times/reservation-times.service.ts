@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { AggregateResult } from 'src/common';
 import { PrismaService, PrismaError } from 'src/prisma';
 
 import { ReservationTimeModel } from '.';
@@ -28,14 +27,6 @@ export class ReservationTimesService {
 
   public async find(args: FindReservationTimeArgs): Promise<ReservationTimeModel[]> {
     return this.prismaService.reservationTime.findMany({ where: args });
-  }
-
-  public async findReservationTimeMinMax(performanceId: string): Promise<AggregateResult<{ toReserveAt: Date | null }>> {
-    return this.prismaService.reservationTime.aggregate({
-      where: { performanceId },
-      _min: { toReserveAt: true },
-      _max: { toReserveAt: true },
-    });
   }
 
   public async update(id: string, reservationTime: UpdateReservationTimeInput): Promise<ReservationTimeModel> {
