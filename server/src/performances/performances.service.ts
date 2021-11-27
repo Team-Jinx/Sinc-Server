@@ -20,7 +20,7 @@ export class PerformancesService {
   public async read(id: string): Promise<FindPerformanceById | null> {
     const performance = await this.prismaService.performance.findUnique({
       where: { id },
-      include: { stories: true, reservationTimes: true },
+      include: { stories: true, reservationTimes: true, artist: true },
     });
 
     if (!performance) return null;
