@@ -37,7 +37,7 @@ export class StoriesService {
   public async findByRandom(): Promise<StoryModel | null> {
     const storiesCount = await this.prismaService.story.count();
     const skip = Math.floor(Math.random() * storiesCount);
-    return this.prismaService.story.findFirst({ skip, include: { performance: true } });
+    return this.prismaService.story.findFirst({ skip, include: { performance: { include: { artist: true } } } });
   }
 
   public async update(id: string, story: UpdateStoryInput): Promise<StoryModel> {
