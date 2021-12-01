@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { OrderDirection } from 'src/common';
 import { PrismaService, PrismaError } from 'src/prisma';
 
 import { StoryModel } from '.';
-import { CreateStoryInput, FindStoryArgs, UpdateStoryInput } from './dtos';
+import { CreateStoryInput, FindRandomStoriesArgs, FindStoryArgs, UpdateStoryInput } from './dtos';
+import { FindRandomStoriesModel } from './models';
 
 @Injectable()
 export class StoriesService {
@@ -34,10 +36,21 @@ export class StoriesService {
     return this.prismaService.story.findMany({ where: { type: 'ADVERTISE' }, orderBy: { cheerCount: 'desc' }, take: limit, skip: offset });
   }
 
-  public async findByRandom(): Promise<StoryModel | null> {
+  public async findByRandom({ take, cursor, field, direction }: FindRandomStoriesArgs): Promise<FindRandomStoriesModel> {
     const storiesCount = await this.prismaService.story.count();
-    const skip = Math.floor(Math.random() * storiesCount);
-    return this.prismaService.story.findFirst({ skip, include: { performance: { include: { artist: true } } } });
+    const randomSkip = Math.max(0, Math.floor(Math.random() * storiesCount) - take);
+    const skip = !cursor ? randomSkip : 1;
+    const orderBy = field || this.randomPick<string>(['id', 'backgroundUrl', 'description', 'updatedAt']);
+    const orderDirection = direction || this.randomPick([OrderDirection.ASC, OrderDirection.DESC]);
+    const data = await this.prismaService.story.findMany({
+      skip,
+      take,
+      ...(cursor && { cursor: { id: cursor } }),
+      // orderBy: { [orderBy]: orderDirection },
+      include: { performance: { include: { artist: true } } },
+    });
+
+    return { data, direction: orderDirection, field: orderBy };
   }
 
   public async update(id: string, story: UpdateStoryInput): Promise<StoryModel> {
@@ -62,5 +75,10 @@ export class StoriesService {
     const result = await this.prismaService.story.delete({ where: { id } });
 
     return !!result;
+  }
+
+  public randomPick<T>(arr: T[]): T {
+    const index = Math.floor(Math.random() * arr.length);
+    return arr[index];
   }
 }

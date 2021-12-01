@@ -6,7 +6,7 @@ import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
 import { Story } from '.prisma/client';
 
-@ObjectType({ description: '공연 테이블' })
+@ObjectType({ description: '숏폼 테이블' })
 export class StoryModel implements Story {
   @Field(() => ID)
   public id!: string;

@@ -3,7 +3,8 @@ import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { StoryModel } from '.';
 import { Logger } from '../common';
-import { CreateStoryInput, FindStoryArgs, UpdateStoryInput } from './dtos';
+import { CreateStoryInput, FindRandomStoriesArgs, FindStoryArgs, UpdateStoryInput } from './dtos';
+import { FindRandomStoriesModel } from './models';
 import { StoriesService } from './stories.service';
 
 @Resolver(() => StoryModel)
@@ -30,11 +31,11 @@ export class StoriesResolver {
     return user;
   }
 
-  @Query(() => StoryModel)
-  public async findStoryByRandom(): Promise<StoryModel | null> {
+  @Query(() => FindRandomStoriesModel)
+  public async findStoriesByRandom(@Args() args: FindRandomStoriesArgs): Promise<FindRandomStoriesModel> {
     this.logger.log('findStoryByRandom');
 
-    return this.storiesService.findByRandom();
+    return this.storiesService.findByRandom(args);
   }
 
   @Query(() => [StoryModel])
