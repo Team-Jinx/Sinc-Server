@@ -6,3 +6,4 @@ export * from './providers';
 export * from './common.module';
 export * from './scalars';
 export * from './interfaces';
+export * from './order';
