@@ -46,7 +46,7 @@ export class StoriesService {
       skip,
       take,
       ...(cursor && { cursor: { id: cursor } }),
-      // orderBy: { [orderBy]: orderDirection },
+      orderBy: { [orderBy]: orderDirection },
       include: { performance: { include: { artist: true } } },
     });
 
