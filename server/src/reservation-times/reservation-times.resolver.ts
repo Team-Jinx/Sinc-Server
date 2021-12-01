@@ -1,5 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { PerformanceModel } from 'src/performances';
 
 import { ReservationTimeModel } from '.';
 import { Logger } from '../common';
@@ -54,5 +55,12 @@ export class ReservationTimesResolver {
     this.logger.log('remove');
 
     return this.reservationTimesService.remove(id);
+  }
+
+  @ResolveField()
+  public async performance(@Parent() reservationTime: ReservationTimeModel): Promise<PerformanceModel | null> {
+    this.logger.log('resolve field');
+
+    return this.reservationTimesService.readWithPerformance(reservationTime.id);
   }
 }

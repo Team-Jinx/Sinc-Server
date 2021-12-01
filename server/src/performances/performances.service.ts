@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService, PrismaError } from 'src/prisma';
+import { ReservationTimeModel } from 'src/reservation-times';
 
 import { PerformanceModel } from '.';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
@@ -23,8 +24,15 @@ export class PerformancesService {
     });
   }
 
+  public async readWithReservationTime(id: string): Promise<ReservationTimeModel[]> {
+    return this.prismaService.performance.findUnique({ where: { id } }).reservationTimes();
+  }
+
   public async find(args: FindPerformanceArgs): Promise<PerformanceModel[]> {
-    return this.prismaService.performance.findMany({ where: args, include: { artist: true, reservationTimes: true } });
+    return this.prismaService.performance.findMany({
+      where: args,
+      include: { artist: true, reservationTimes: true },
+    });
   }
 
   public async findPopularPerformances(category: Category): Promise<PerformanceModel[]> {

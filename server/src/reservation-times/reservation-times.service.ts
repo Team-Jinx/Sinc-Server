@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { PerformanceModel } from 'src/performances';
 import { PrismaService, PrismaError } from 'src/prisma';
 
 import { ReservationTimeModel } from '.';
@@ -15,9 +16,9 @@ export class ReservationTimesService {
     return this.prismaService.reservationTime.create({ data });
   }
 
-  // public async readWithAuthor(id: string): Promise<ReservationTimeModel | null> {
-  //   return this.prismaService.post.findUnique({ where: { id } }).author();
-  // }
+  public async readWithPerformance(id: string): Promise<PerformanceModel | null> {
+    return this.prismaService.reservationTime.findUnique({ where: { id } }).performance();
+  }
 
   public async read(id: string): Promise<ReservationTimeModel | null> {
     return this.prismaService.reservationTime.findUnique({
