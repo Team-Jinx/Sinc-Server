@@ -7,30 +7,11 @@ const userData: Prisma.UserCreateInput[] = [
     email: 'alice@prisma.io',
     nickname: 'Alice',
     phone: '010-1234-1234',
-    // posts: {
-    //   create: [
-    //     {
-    //       title: 'Join the Prisma Slack',
-    //       content: 'https://slack.prisma.io',
-    //       published: true,
-    //     },
-    //   ],
-    // },
   },
   {
     email: 'nilu@prisma.io',
     nickname: 'Nilu',
     phone: '010-1234-1234',
-    // posts: {
-    //   create: [
-    //     {
-    //       title: 'Follow Prisma on Twitter',
-    //       content: 'https://www.twitter.com/prisma',
-    //       published: true,
-    //       viewCount: 42,
-    //     },
-    //   ],
-    // },
   },
   {
     email: 'mahmoud@prisma.io',

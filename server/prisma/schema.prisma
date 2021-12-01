@@ -26,10 +26,11 @@ model User {
 }
 
 model Artist {
-  id        String @default(cuid()) @id
-  name      String
-  agency    String?
-  profileUrl String?
+  id                  String @default(cuid()) @id
+  name                String
+  agency              String?
+  profileUrl          String?
+  description         String?   @db.Text
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   performances Performance[]

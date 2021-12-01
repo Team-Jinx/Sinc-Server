@@ -15,6 +15,9 @@ export class ArtistModel implements Artist {
   public agency!: string | null;
 
   @Field(() => String, { nullable: true })
+  public description!: string | null;
+
+  @Field(() => String, { nullable: true })
   public profileUrl!: string | null;
 
   @Field(() => [PerformanceModel])
