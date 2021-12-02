@@ -1,6 +1,5 @@
-import { UseGuards, Req } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import type { Request } from 'express';
 import { UserModel } from 'src/users';
 
 import { AuthenticatedGuard, JwtAuthGuard, KakaoLoginGuard, Payload, AccessTokenModel } from '.';
@@ -28,9 +27,9 @@ export class AuthResolver {
   }
 
   @Mutation(() => AccessTokenModel)
-  // @UseGuards(LocalAuthGuard)
-  public loginByJwt(@Req() req: Request): AccessTokenModel {
-    return this.authService.signJwt(<Payload>req.user);
+  @UseGuards(JwtAuthGuard)
+  public loginByJwt(@ReqUser() user: Payload): AccessTokenModel {
+    return this.authService.signJwt(user);
   }
 
   @Query(() => Payload)
