@@ -25,18 +25,20 @@ export class StoriesResolver {
     return this.storiesService.create(storyData);
   }
 
-  @Query(() => StoryModel)
+  @Query(() => StoryWithPerformanceStatisticsModel)
   public async findStoryById(
     @Args('id', { type: () => ID }) id: string,
     @Args('userId', { type: () => ID }) userId: string, // TODO: 나중에 @ReqUser로 변경할 것.
-  ): Promise<StoryModel> {
+  ): Promise<StoryWithPerformanceStatisticsModel> {
     this.logger.log('read');
 
-    const user = await this.storiesService.read(id, userId);
+    const story = await this.storiesService.read(id, userId);
 
-    if (!user) throw new NotFoundException('NotFoundData');
+    if (!story) throw new NotFoundException('NotFoundData');
 
-    return user;
+    const { amount, ticketCount } = await this.usersBoughtPerformancesService.findTicketStatistics(story.performanceId);
+
+    return { amount, ticketCount, ...story };
   }
 
   @Query(() => FindRandomStoriesModel)
