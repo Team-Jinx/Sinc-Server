@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService, PrismaError } from 'src/prisma';
 import { ReservationTimeModel } from 'src/reservation-times';
 
-import { PerformanceModel } from '.';
+import { FindPerformanceById, PerformanceModel } from '.';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class PerformancesService {
     return this.prismaService.performance.create({ data });
   }
 
-  public async read(id: string): Promise<PerformanceModel | null> {
+  public async read(id: string): Promise<FindPerformanceById | null> {
     return this.prismaService.performance.findUnique({
       where: { id },
       include: {

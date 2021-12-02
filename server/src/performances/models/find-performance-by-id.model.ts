@@ -1,12 +1,12 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Status, Category } from '@prisma/client';
-import { ArtistModel } from 'src/artists';
 import { ReservationTimeModel } from 'src/reservation-times';
 import { NotificationModel } from 'src/shared/notification';
 import { StoryModel } from 'src/stories';
 import { UsersBoughtPerformancesModel } from 'src/users-bought-performances';
 import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
+import { ArtistWithCountModel } from './artist-with-count.model';
 import { Performance } from '.prisma/client';
 
 @ObjectType()
@@ -59,8 +59,8 @@ export class FindPerformanceById implements Performance {
   @Field(() => ID)
   public artistId!: string;
 
-  @Field(() => ArtistModel)
-  public artist?: ArtistModel;
+  @Field(() => ArtistWithCountModel)
+  public artist?: ArtistWithCountModel;
 
   @Field(() => [ReservationTimeModel])
   public reservationTimes?: ReservationTimeModel[];
@@ -78,8 +78,8 @@ export class FindPerformanceById implements Performance {
   public notifications?: NotificationModel[];
 
   @Field(() => Int)
-  public ticketCount!: number | null;
+  public ticketCount?: number;
 
   @Field(() => Int)
-  public amount!: number;
+  public amount?: number;
 }
