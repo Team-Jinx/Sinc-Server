@@ -37,6 +37,7 @@ const artistData: Prisma.ArtistCreateInput[] = Array(10)
     id: index.toString(),
     name: `dummyArtist${index}`,
     agency: `dummyAgency${index}`,
+    inquiryLink: 'https://www.naver.com',
     profileUrl: `https://sinc-storage.s3.ap-northeast-2.amazonaws.com/Rectangle+1095.svg`,
     description: `hihihi`,
   }));

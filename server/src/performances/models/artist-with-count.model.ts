@@ -9,6 +9,7 @@ export class ArtistWithCountModel implements ArtistModel {
   @Field(() => PerformanceCountModel, { nullable: true })
   public _count!: PerformanceCountModel | null;
 
+  public inquiryLink!: string | null;
   public id!: string;
   public name!: string;
   public agency!: string | null;

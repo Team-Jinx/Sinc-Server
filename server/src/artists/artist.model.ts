@@ -23,6 +23,9 @@ export class ArtistModel implements Artist {
   @Field(() => [PerformanceModel])
   public performances?: PerformanceModel[];
 
+  @Field(() => String, { nullable: true })
+  public inquiryLink!: string | null;
+
   public createdAt!: Date;
   public updatedAt!: Date;
 }

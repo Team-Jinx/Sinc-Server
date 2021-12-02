@@ -31,6 +31,7 @@ model Artist {
   agency              String?
   profileUrl          String?
   description         String?   @db.Text
+  inquiryLink         String?   
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   performances Performance[]
