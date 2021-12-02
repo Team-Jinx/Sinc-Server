@@ -24,6 +24,10 @@ export class FindPerformanceArgs {
   public category?: Category;
 
   @IsOptional()
+  @IsString()
+  public artistId?: string;
+
+  @IsOptional()
   @IsInt()
   public take?: number;
 

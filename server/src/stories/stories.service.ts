@@ -30,11 +30,12 @@ export class StoriesService {
   }
 
   public async find(args: Omit<FindStoryArgs, 'userId'>, userId?: string): Promise<StoryModel[]> {
-    const { skip, take, keyword, ...where } = args;
+    const { skip, take, keyword, artistId, ...where } = args;
 
     return this.prismaService.story.findMany({
       where: {
         ...where,
+        ...(artistId && { performance: { artistId } }),
         ...(keyword && {
           OR: [
             {
