@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { ArtistModel } from 'src/artists';
 import { ReservationTimeModel } from 'src/reservation-times';
 import { NotificationModel } from 'src/shared/notification';
@@ -7,6 +7,9 @@ import { UsersBoughtPerformancesModel } from 'src/users-bought-performances';
 import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
 import { Category, Performance, Status } from '.prisma/client';
+
+registerEnumType(Category, { name: 'Category' });
+registerEnumType(Status, { name: 'Status' });
 
 @ObjectType({ description: '공연 테이블' })
 export class PerformanceModel implements Performance {
@@ -37,10 +40,10 @@ export class PerformanceModel implements Performance {
   @Field(() => String, { nullable: true })
   public posterUrl!: string | null;
 
-  @Field(() => String, { defaultValue: Status.PROGRESS })
+  @Field(() => Status, { defaultValue: Status.PROGRESS })
   public fundingStatus!: Status;
 
-  @Field(() => String)
+  @Field(() => Category)
   public category!: Category;
 
   @Field(() => Int, { defaultValue: 0 })

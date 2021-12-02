@@ -36,8 +36,8 @@ export class StoriesService {
     return this.prismaService.story.findMany({ where: { type: 'ADVERTISE' }, orderBy: { cheerCount: 'desc' }, take: limit, skip: offset });
   }
 
-  public async findByRandom({ take, cursor, field, direction }: FindRandomStoriesArgs): Promise<FindRandomStoriesModel> {
-    const storiesCount = await this.prismaService.story.count();
+  public async findByRandom({ take, cursor, field, direction, category }: FindRandomStoriesArgs): Promise<FindRandomStoriesModel> {
+    const storiesCount = await this.prismaService.story.count({ ...(category && { where: { performance: { category } } }) });
     const randomSkip = Math.max(0, Math.floor(Math.random() * storiesCount) - take);
     const skip = !cursor ? randomSkip : 1;
     const orderBy = field || this.randomPick<string>(['id', 'backgroundUrl', 'description', 'updatedAt']);
@@ -46,6 +46,7 @@ export class StoriesService {
       skip,
       take,
       ...(cursor && { cursor: { id: cursor } }),
+      ...(category && { where: { performance: { category } } }),
       orderBy: { [orderBy]: orderDirection },
       include: { performance: { include: { artist: true } } },
     });
