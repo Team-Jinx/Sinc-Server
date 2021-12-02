@@ -35,7 +35,14 @@ export class UsersBoughtPerformancesService {
   }
 
   public async find(args: FindUsersBoughtPerformancesArgs): Promise<UsersBoughtPerformancesModel[]> {
-    return this.prismaService.usersBoughtPerformances.findMany({ where: args });
+    const { skip, take, ...where } = args;
+    return this.prismaService.usersBoughtPerformances.findMany({
+      where,
+      skip,
+      take,
+      orderBy: { id: 'desc' },
+      include: { performance: true },
+    });
   }
 
   public async findUserImminentTicket(userId: string): Promise<UsersBoughtPerformancesModel | null> {
