@@ -24,7 +24,9 @@ export class UsersCheeredPerformancesService {
   }
 
   public async find(args: FindUsersCheeredPerformancesArgs): Promise<UsersCheeredPerformancesModel[]> {
-    return this.prismaService.usersCheeredPerformances.findMany({ where: args });
+    const { skip, take, ...where } = args;
+
+    return this.prismaService.usersCheeredPerformances.findMany({ where, skip, take, include: { story: true }, orderBy: { id: 'desc' } });
   }
 
   public async update(id: string, usersCheeredPerformances: UpdateUsersCheeredPerformancesInput): Promise<UsersCheeredPerformancesModel> {

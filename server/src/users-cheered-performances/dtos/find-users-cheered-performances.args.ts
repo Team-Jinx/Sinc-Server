@@ -1,5 +1,5 @@
-import { ArgsType } from '@nestjs/graphql';
-import { IsOptional, IsString } from 'class-validator';
+import { ArgsType, Field, Int } from '@nestjs/graphql';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
 @ArgsType()
 export class FindUsersCheeredPerformancesArgs {
@@ -13,4 +13,14 @@ export class FindUsersCheeredPerformancesArgs {
   @IsOptional()
   @IsString()
   public storyId?: string;
+
+  @Field(() => Int)
+  @IsOptional()
+  @IsInt()
+  public skip?: number;
+
+  @Field(() => Int)
+  @IsOptional()
+  @IsInt()
+  public take?: number;
 }
