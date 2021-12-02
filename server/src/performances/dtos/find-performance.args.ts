@@ -13,6 +13,10 @@ export class FindPerformanceArgs {
   @IsString()
   public place?: string;
 
+  @IsOptional()
+  @IsString()
+  public keyword?: string;
+
   @Field()
   @IsOptional()
   @IsString()

@@ -13,10 +13,18 @@ export class FindStoryArgs {
   @IsString()
   public artistId?: string;
 
+  @IsOptional()
+  @IsString()
+  public keyword?: string;
+
   @Field(() => StoryType)
   @IsOptional()
   @IsIn(Object.keys(StoryType))
   public type?: StoryType;
+
+  @IsOptional()
+  @IsString()
+  public userId?: string;
 
   @IsOptional()
   @IsInt()

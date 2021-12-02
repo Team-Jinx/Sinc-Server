@@ -67,13 +67,19 @@ export class StoriesResolver {
   }
 
   @Query(() => [StoryModel])
-  public async findStories(
-    @Args() args: FindStoryArgs,
-    @Args('userId', { type: () => ID }) userId: string, // TODO: 나중에 @ReqUser로 변경할 것.
-  ): Promise<StoryModel[]> {
+  public async findStories(@Args() args: FindStoryArgs): Promise<StoryModel[]> {
     this.logger.log('find');
 
-    return this.storiesService.find(args, userId);
+    const { userId, ...options } = args;
+
+    return this.storiesService.find(options, userId);
+  }
+
+  @Query(() => Int)
+  public async countStories(@Args() args: FindStoryArgs): Promise<number> {
+    this.logger.log('count');
+
+    return this.storiesService.countStories(args);
   }
 
   @Query(() => [StoryModel])

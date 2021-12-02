@@ -4,7 +4,7 @@ import { PerformanceModel } from 'src/performances';
 import { StoryModel } from 'src/stories';
 import { UserModel } from 'src/users';
 
-@ObjectType({ description: '유저 구매 기록 스키마' })
+@ObjectType({ description: '유저 응원 기록 스키마' })
 export class UsersCheeredPerformancesModel implements UsersCheeredPerformances {
   public id!: string;
   public createdAt!: Date;

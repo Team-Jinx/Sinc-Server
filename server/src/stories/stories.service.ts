@@ -29,15 +29,47 @@ export class StoriesService {
     });
   }
 
-  public async find(args: FindStoryArgs, userId: string): Promise<StoryModel[]> {
-    const { skip, take, ...where } = args;
+  public async find(args: Omit<FindStoryArgs, 'userId'>, userId?: string): Promise<StoryModel[]> {
+    const { skip, take, keyword, ...where } = args;
 
     return this.prismaService.story.findMany({
-      where,
+      where: {
+        ...where,
+        ...(keyword && {
+          OR: [
+            {
+              description: { contains: keyword },
+            },
+            {
+              performance: { artist: { name: { contains: keyword } } },
+            },
+          ],
+        }),
+      },
       orderBy: { id: 'desc' },
       skip,
       take,
       include: { usersCheeredPerformances: { where: { userId } }, performance: { include: { artist: true } } },
+    });
+  }
+
+  public async countStories(args: FindStoryArgs): Promise<number> {
+    const { skip, take, keyword, ...where } = args;
+
+    return this.prismaService.story.count({
+      where: {
+        ...where,
+        ...(keyword && {
+          OR: [
+            {
+              description: { contains: keyword },
+            },
+            {
+              performance: { artist: { name: { contains: keyword } } },
+            },
+          ],
+        }),
+      },
     });
   }
 
