@@ -52,7 +52,9 @@ export class StoriesService {
     { take, cursor, field, direction, category }: FindRandomStoriesArgs,
     userId: string,
   ): Promise<FindRandomStoriesModel> {
-    const storiesCount = await this.prismaService.story.count({ ...(category && { where: { performance: { category } } }) });
+    const storiesCount = await this.prismaService.story.count({
+      where: { type: 'ADVERTISE', ...(category && { performance: { category } }) },
+    });
     const randomSkip = Math.max(0, Math.floor(Math.random() * storiesCount) - take);
     const skip = !cursor ? randomSkip : 1;
     const orderBy = field || this.randomPick<string>(['id', 'videoUrl', 'imageUrl', 'description', 'updatedAt']);
@@ -61,7 +63,7 @@ export class StoriesService {
       skip,
       take,
       ...(cursor && { cursor: { id: cursor } }),
-      ...(category && { where: { performance: { category } } }),
+      where: { type: 'ADVERTISE', ...(category && { performance: { category } }) },
       orderBy: { [orderBy]: orderDirection },
       include: {
         performance: { include: { artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc' } } } },
