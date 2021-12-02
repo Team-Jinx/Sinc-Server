@@ -8,7 +8,7 @@ import { CreateArtistInput, FindArtistArgs, UpdateArtistInput } from './dtos';
 
 @Resolver(() => ArtistModel)
 export class ArtistsResolver {
-  constructor(private readonly logger: Logger, private usersService: ArtistsService) {
+  constructor(private readonly logger: Logger, private artistsService: ArtistsService) {
     this.logger.setContext(ArtistsResolver.name);
   }
 
@@ -16,14 +16,14 @@ export class ArtistsResolver {
   public async createArtist(@Args('artistData') artistData: CreateArtistInput): Promise<ArtistModel> {
     this.logger.log('create');
 
-    return this.usersService.create(artistData);
+    return this.artistsService.create(artistData);
   }
 
   @Query(() => ArtistModel)
   public async findArtistById(@Args('id', { type: () => ID }) id: string): Promise<ArtistModel> {
     this.logger.log('read');
 
-    const user = await this.usersService.read(id);
+    const user = await this.artistsService.read(id);
 
     if (!user) throw new NotFoundException('NotFoundData');
 
@@ -34,7 +34,7 @@ export class ArtistsResolver {
   public async findArtist(@Args() args: FindArtistArgs): Promise<ArtistModel[]> {
     this.logger.log('find');
 
-    return this.usersService.find(args);
+    return this.artistsService.find(args);
   }
 
   @Mutation(() => ArtistModel)
@@ -44,13 +44,13 @@ export class ArtistsResolver {
   ): Promise<ArtistModel> {
     this.logger.log('update');
 
-    return this.usersService.update(id, artistData);
+    return this.artistsService.update(id, artistData);
   }
 
   @Mutation(() => Boolean)
   public async removeArtist(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
     this.logger.log('remove');
 
-    return this.usersService.remove(id);
+    return this.artistsService.remove(id);
   }
 }
