@@ -55,7 +55,7 @@ export class StoriesService {
       ...(cursor && { cursor: { id: cursor } }),
       ...(category && { where: { performance: { category } } }),
       orderBy: { [orderBy]: orderDirection },
-      include: { performance: { include: { artist: true } }, usersCheeredPerformances: { where: { userId } } },
+      include: { performance: { include: { artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc'} } } }, usersCheeredPerformances: { where: { userId } } },
     });
 
     return { data: stories, direction: orderDirection, field: orderBy };
