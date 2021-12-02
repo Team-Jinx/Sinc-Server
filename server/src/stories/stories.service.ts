@@ -19,10 +19,13 @@ export class StoriesService {
   //   return this.prismaService.post.findUnique({ where: { id } }).author();
   // }
 
-  public async read(id: string): Promise<StoryModel | null> {
+  public async read(id: string, userId: string): Promise<StoryModel | null> {
     return this.prismaService.story.findUnique({
       where: { id },
-      include: { performance: { include: { artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc' } } } } },
+      include: {
+        usersCheeredPerformances: { where: { userId } },
+        performance: { include: { artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc' } } } },
+      },
     });
   }
 
