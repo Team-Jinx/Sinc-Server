@@ -41,7 +41,7 @@ export class UsersBoughtPerformancesService {
       skip,
       take,
       orderBy: { id: 'desc' },
-      include: { performance: true },
+      include: { performance: { include: { reservationTimes: { orderBy: { toReserveAt: 'asc' } } } } },
     });
   }
 
