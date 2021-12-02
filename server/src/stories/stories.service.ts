@@ -33,7 +33,12 @@ export class StoriesService {
   }
 
   public async findPopularStories(limit: number, offset: number): Promise<StoryModel[]> {
-    return this.prismaService.story.findMany({ where: { type: 'ADVERTISE' }, orderBy: { cheerCount: 'desc' }, take: limit, skip: offset });
+    return this.prismaService.story.findMany({
+      where: { type: 'ADVERTISE', performance: { fundingStatus: 'PROGRESS' } },
+      orderBy: { cheerCount: 'desc' },
+      take: limit,
+      skip: offset,
+    });
   }
 
   public async findByRandom({ take, cursor, field, direction, category }: FindRandomStoriesArgs): Promise<FindRandomStoriesModel> {
