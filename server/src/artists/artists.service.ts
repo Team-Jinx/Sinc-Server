@@ -18,6 +18,9 @@ export class ArtistsService {
   public async read(id: string): Promise<ArtistModel | null> {
     return this.prismaService.artist.findUnique({
       where: { id },
+      include: {
+        performances: { orderBy: { toEndAt: 'desc' }, take: 2, include: { reservationTimes: { orderBy: { toReserveAt: 'asc' } } } },
+      },
     });
   }
 
