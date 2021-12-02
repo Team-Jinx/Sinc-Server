@@ -30,16 +30,20 @@ export class StoriesService {
     return this.prismaService.story.findMany({ where: args });
   }
 
-  public async findPopularStories(limit: number, offset: number): Promise<StoryModel[]> {
+  public async findPopularStories(limit: number, offset: number, userId: string): Promise<StoryModel[]> {
     return this.prismaService.story.findMany({
       where: { type: 'ADVERTISE', performance: { fundingStatus: 'PROGRESS' } },
+      include: { usersCheeredPerformances: { where: { userId } } },
       orderBy: { cheerCount: 'desc' },
       take: limit,
       skip: offset,
     });
   }
 
-  public async findByRandom({ take, cursor, field, direction, category }: FindRandomStoriesArgs): Promise<FindRandomStoriesModel> {
+  public async findByRandom(
+    { take, cursor, field, direction, category }: FindRandomStoriesArgs,
+    userId: string,
+  ): Promise<FindRandomStoriesModel> {
     const storiesCount = await this.prismaService.story.count({ ...(category && { where: { performance: { category } } }) });
     const randomSkip = Math.max(0, Math.floor(Math.random() * storiesCount) - take);
     const skip = !cursor ? randomSkip : 1;
@@ -51,7 +55,7 @@ export class StoriesService {
       ...(cursor && { cursor: { id: cursor } }),
       ...(category && { where: { performance: { category } } }),
       orderBy: { [orderBy]: orderDirection },
-      include: { performance: { include: { artist: true } } },
+      include: { performance: { include: { artist: true } }, usersCheeredPerformances: { where: { userId } } },
     });
 
     return { data: stories, direction: orderDirection, field: orderBy };

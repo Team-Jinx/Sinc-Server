@@ -37,10 +37,13 @@ export class StoriesResolver {
   }
 
   @Query(() => FindRandomStoriesModel)
-  public async findStoriesByRandom(@Args() args: FindRandomStoriesArgs): Promise<FindRandomStoriesModel> {
+  public async findStoriesByRandom(
+    @Args('userId', { type: () => ID }) userId: string, // TODO: 나중에 @ReqUser로 변경할 것.
+    @Args() args: FindRandomStoriesArgs,
+  ): Promise<FindRandomStoriesModel> {
     this.logger.log('findStoryByRandom');
 
-    const stories = await this.storiesService.findByRandom(args);
+    const stories = await this.storiesService.findByRandom(args, userId);
 
     stories.data = await Promise.all(
       stories.data.map(async (story: StoryWithPerformanceStatisticsModel) => {
@@ -69,10 +72,11 @@ export class StoriesResolver {
   public async findPopularStories(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
+    @Args('userId', { type: () => ID }) userId: string, // TODO: 나중에 @ReqUser로 변경할 것.
   ): Promise<StoryModel[]> {
     this.logger.log('findPopularStories');
 
-    return this.storiesService.findPopularStories(limit, offset);
+    return this.storiesService.findPopularStories(limit, offset, userId);
   }
 
   @Mutation(() => StoryModel)
