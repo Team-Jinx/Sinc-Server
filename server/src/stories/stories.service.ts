@@ -26,10 +26,16 @@ export class StoriesService {
     });
   }
 
-  public async find(args: FindStoryArgs): Promise<StoryModel[]> {
+  public async find(args: FindStoryArgs, userId: string): Promise<StoryModel[]> {
     const { skip, take, ...where } = args;
 
-    return this.prismaService.story.findMany({ where, orderBy: { id: 'desc' }, skip, take });
+    return this.prismaService.story.findMany({
+      where,
+      orderBy: { id: 'desc' },
+      skip,
+      take,
+      include: { usersCheeredPerformances: { where: { userId } }, performance: { include: { artist: true } } },
+    });
   }
 
   public async findPopularStories(limit: number, offset: number, userId: string): Promise<StoryModel[]> {
