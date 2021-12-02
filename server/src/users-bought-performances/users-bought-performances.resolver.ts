@@ -33,7 +33,9 @@ export class UsersBoughtPerformancesResolver {
   }
 
   @Query(() => UsersBoughtPerformancesModel, { nullable: true })
-  public async findUserTicket(@Args('userId', { type: () => ID }) userId: string): Promise<UsersBoughtPerformancesModel | null> {
+  public async findUserImminentTicket(
+    @Args('userId', { type: () => ID }) userId: string, // TODO: 나중에 ReqUser로 바꿀것
+  ): Promise<UsersBoughtPerformancesModel | null> {
     return this.usersBoughtPerformancesService.findUserImminentTicket(userId);
   }
 
