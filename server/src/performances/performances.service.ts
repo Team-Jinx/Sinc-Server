@@ -5,7 +5,6 @@ import { ReservationTimeModel } from 'src/reservation-times';
 
 import { PerformanceModel } from '.';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
-import { Category } from '.prisma/client';
 
 @Injectable()
 export class PerformancesService {
@@ -35,10 +34,10 @@ export class PerformancesService {
     });
   }
 
-  public async findPopularPerformances(category: Category): Promise<PerformanceModel[]> {
+  public async findPopularPerformances(): Promise<PerformanceModel[]> {
     return this.prismaService.performance.findMany({
-      where: { category },
       include: { artist: true, reservationTimes: true },
+      where: { fundingStatus: 'PROGRESS' },
       orderBy: { cheerCount: 'desc' },
       take: 3,
     });

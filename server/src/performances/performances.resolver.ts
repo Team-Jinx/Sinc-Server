@@ -7,7 +7,6 @@ import { FindPerformanceById, PerformanceModel } from '.';
 import { Logger } from '../common';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
 import { PerformancesService } from './performances.service';
-import { Category } from '.prisma/client';
 
 @Resolver(() => PerformanceModel)
 export class PerformancesResolver {
@@ -46,10 +45,10 @@ export class PerformancesResolver {
   }
 
   @Query(() => [PerformanceModel])
-  public async findPopularPerformances(@Args('category', { type: () => String }) category: Category): Promise<PerformanceModel[]> {
+  public async findPopularPerformances(): Promise<PerformanceModel[]> {
     this.logger.log('findPopularPerformances');
 
-    return this.performancesService.findPopularPerformances(category);
+    return this.performancesService.findPopularPerformances();
   }
 
   @Mutation(() => PerformanceModel)
