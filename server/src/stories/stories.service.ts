@@ -55,7 +55,7 @@ export class StoriesService {
     const storiesCount = await this.prismaService.story.count({ ...(category && { where: { performance: { category } } }) });
     const randomSkip = Math.max(0, Math.floor(Math.random() * storiesCount) - take);
     const skip = !cursor ? randomSkip : 1;
-    const orderBy = field || this.randomPick<string>(['id', 'backgroundUrl', 'description', 'updatedAt']);
+    const orderBy = field || this.randomPick<string>(['id', 'videoUrl', 'imageUrl', 'description', 'updatedAt']);
     const orderDirection = direction || this.randomPick([OrderDirection.ASC, OrderDirection.DESC]);
     const stories = await this.prismaService.story.findMany({
       skip,
