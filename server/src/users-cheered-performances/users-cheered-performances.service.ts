@@ -7,18 +7,15 @@ import { CreateUsersCheeredPerformancesInput, FindUsersCheeredPerformancesArgs, 
 
 @Injectable()
 export class UsersCheeredPerformancesService {
-  constructor(
-    private readonly prismaService: PrismaService, // private util: UtilService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   public async create(data: CreateUsersCheeredPerformancesInput): Promise<UsersCheeredPerformancesModel> {
-    await this.prismaService.performance.update({ where: { id: data.performanceId }, data: { cheerCount: { increment: 1 } } });
+    await this.prismaService.story.update({
+      where: { id: data.storyId },
+      data: { cheerCount: { increment: 1 }, performance: { update: { cheerCount: { increment: 1 } } } },
+    });
     return this.prismaService.usersCheeredPerformances.create({ data });
   }
-
-  // public async readWithAuthor(id: string): Promise<UsersCheeredPerformancesModel | null> {
-  //   return this.prismaService.post.findUnique({ where: { id } }).author();
-  // }
 
   public async read(id: string): Promise<UsersCheeredPerformancesModel | null> {
     return this.prismaService.usersCheeredPerformances.findUnique({
@@ -40,7 +37,6 @@ export class UsersCheeredPerformancesService {
         where: { id },
       });
     } catch (error) {
-      // https://www.prisma.io/docs/reference/api-reference/error-reference
       if (error instanceof PrismaClientKnownRequestError && error.code === PrismaError.RECORD_DOES_NOT_EXIST) {
         throw new NotFoundException('post with id not found');
       }
@@ -50,7 +46,10 @@ export class UsersCheeredPerformancesService {
 
   public async remove(id: string): Promise<boolean> {
     const result = await this.prismaService.usersCheeredPerformances.delete({ where: { id } });
-    await this.prismaService.performance.update({ where: { id: result.performanceId }, data: { cheerCount: { decrement: 1 } } });
+    await this.prismaService.story.update({
+      where: { id: result.storyId },
+      data: { cheerCount: { decrement: 1 }, performance: { update: { cheerCount: { decrement: 1 } } } },
+    });
 
     return !!result;
   }
