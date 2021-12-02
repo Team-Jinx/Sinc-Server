@@ -9,4 +9,5 @@ export class Payload {
 
   public id!: string;
   public nickname!: string;
+  public profileUrl!: string | null;
 }

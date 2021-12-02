@@ -21,13 +21,13 @@ export class AuthService {
       );
     }
 
-    const payload: JwtPayload = { sub: user.id, username: user.nickname, role: user.role };
+    const payload: JwtPayload = { sub: user.id, username: user.nickname, role: user.role, profileUrl: user.profileUrl };
 
     return { accessToken: this.jwt.sign(payload) };
   }
 
   public signJwt(user: Payload): AccessTokenModel {
-    const payload: JwtPayload = { sub: user.id, username: user.nickname, role: user.role };
+    const payload: JwtPayload = { sub: user.id, username: user.nickname, role: user.role, profileUrl: user.profileUrl };
 
     return { accessToken: this.jwt.sign(payload) };
   }

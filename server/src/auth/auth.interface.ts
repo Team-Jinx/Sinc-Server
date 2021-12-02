@@ -4,6 +4,7 @@ export interface JwtPayload {
   sub: string;
   username: string;
   role: Role;
+  profileUrl: string | null;
 }
 
 export interface KakaoData {
