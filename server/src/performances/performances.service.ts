@@ -58,6 +58,29 @@ export class PerformancesService {
     });
   }
 
+  public async countPerformance(args: FindPerformanceArgs): Promise<number> {
+    const { skip, take, keyword, ...where } = args;
+
+    return this.prismaService.performance.count({
+      where: {
+        ...where,
+        ...(keyword && {
+          OR: [
+            {
+              title: { contains: keyword },
+            },
+            {
+              artist: { agency: { contains: keyword } },
+            },
+            {
+              artist: { name: { contains: keyword } },
+            },
+          ],
+        }),
+      },
+    });
+  }
+
   public async findPopularPerformances(): Promise<PerformanceModel[]> {
     return this.prismaService.performance.findMany({
       include: { artist: true, reservationTimes: true },
@@ -77,7 +100,6 @@ export class PerformancesService {
         where: { id },
       });
     } catch (error) {
-      // https://www.prisma.io/docs/reference/api-reference/error-reference
       if (error instanceof PrismaClientKnownRequestError && error.code === PrismaError.RECORD_DOES_NOT_EXIST) {
         throw new NotFoundException('post with id not found');
       }
