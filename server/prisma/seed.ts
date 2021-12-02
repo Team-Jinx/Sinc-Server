@@ -28,6 +28,7 @@ const userData: Prisma.UserCreateInput[] = Array(10)
     id: index.toString(),
     email: `dummy${index}@prisma.id`,
     nickname: `dummy${index}`,
+    profileUrl: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_110x110.jpg',
   }));
 
 const artistData: Prisma.ArtistCreateInput[] = Array(10)
@@ -36,7 +37,7 @@ const artistData: Prisma.ArtistCreateInput[] = Array(10)
     id: index.toString(),
     name: `dummyArtist${index}`,
     agency: `dummyAgency${index}`,
-    profileUrl: `dsafafdasdfaf`,
+    profileUrl: `https://sinc-storage.s3.ap-northeast-2.amazonaws.com/Rectangle+1095.svg`,
     description: `hihihi`,
   }));
 
@@ -49,7 +50,7 @@ const performanceData = Array(20)
     place: `place${index}`,
     runningTime: getRandomInt(100, 200),
     showTime: `showTime${index}`,
-    posterUrl: `posterUrl${index}`,
+    posterUrl: `https://sinc-storage.s3.ap-northeast-2.amazonaws.com/uleam_poster.png`,
     category: Object.keys(Category)[getRandomInt(0, 3)] as Category,
     cheerCount: getRandomInt(0, 999),
     price: getRandomInt(0, 999) * 100,
@@ -71,7 +72,7 @@ const storyData = Array(200)
   .fill({})
   .map((_: Story, index: number) => ({
     id: index.toString(),
-    backgroundUrl: `backgroundUrl${index}`,
+    backgroundUrl: `https://sinc-storage.s3.ap-northeast-2.amazonaws.com/video.mp4`,
     description: `description${index}`,
     cheerCount: getRandomInt(0, 50),
     type: Object.keys(StoryType)[getRandomInt(0, 1)] as StoryType,
