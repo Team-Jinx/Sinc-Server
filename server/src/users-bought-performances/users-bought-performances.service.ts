@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import dayjs from 'dayjs';
 import { PrismaService, PrismaError } from 'src/prisma';
 
 import { UsersBoughtPerformancesModel } from '.';
@@ -35,6 +36,17 @@ export class UsersBoughtPerformancesService {
 
   public async find(args: FindUsersBoughtPerformancesArgs): Promise<UsersBoughtPerformancesModel[]> {
     return this.prismaService.usersBoughtPerformances.findMany({ where: args });
+  }
+
+  public async findUserImminentTicket(userId: string): Promise<UsersBoughtPerformancesModel | null> {
+    const now = dayjs().toDate();
+    const imminentHour = dayjs().add(1, 'hour').toDate();
+
+    return this.prismaService.usersBoughtPerformances.findFirst({
+      where: { userId, reservationTime: { toReserveAt: { gt: now, lte: imminentHour } } },
+      orderBy: { reservationTime: { toReserveAt: 'desc' } },
+      include: { reservationTime: true, performance: true },
+    });
   }
 
   public async findTicketStatistics(performanceId: string): Promise<{ amount: number; ticketCount: number }> {

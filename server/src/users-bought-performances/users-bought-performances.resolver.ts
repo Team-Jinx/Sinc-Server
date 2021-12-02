@@ -32,6 +32,11 @@ export class UsersBoughtPerformancesResolver {
     return user;
   }
 
+  @Query(() => UsersBoughtPerformancesModel, { nullable: true })
+  public async findUserTicket(@Args('userId', { type: () => ID }) userId: string): Promise<UsersBoughtPerformancesModel | null> {
+    return this.usersBoughtPerformancesService.findUserImminentTicket(userId);
+  }
+
   @Query(() => [UsersBoughtPerformancesModel])
   public async findUsersBoughtPerformances(@Args() args: FindUsersBoughtPerformancesArgs): Promise<UsersBoughtPerformancesModel[]> {
     this.logger.log('find');
