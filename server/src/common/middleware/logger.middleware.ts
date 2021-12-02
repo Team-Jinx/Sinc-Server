@@ -22,7 +22,7 @@ export class LoggerMiddleware implements NestMiddleware {
     req.id = req.header('X-Request-Id') || nanoid();
     res.setHeader('X-Request-Id', req.id);
 
-    const user = req.user?.userId || '';
+    const user = req.user?.id || '';
     this.logger.log(`${req.method} ${req.originalUrl} - ${req.ip.replace('::ffff:', '')} ${user}`);
 
     return next();

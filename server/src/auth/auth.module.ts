@@ -1,11 +1,15 @@
-import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { PrismaModule } from 'src/prisma';
+import { UsersModule } from 'src/users';
 
 import { UserModule } from '../shared/user';
+import { AuthResolver } from './auth.resolver';
 import { AuthSerializer } from './auth.serializer';
 import { AuthService } from './auth.service';
-import { LocalStrategy, JwtStrategy } from './strategies';
+import { JwtStrategy, KakaoStrategy } from './strategies';
 
 @Module({
   imports: [
@@ -17,8 +21,10 @@ import { LocalStrategy, JwtStrategy } from './strategies';
       }),
       inject: [ConfigService],
     }),
+    HttpModule,
+    PrismaModule,
+    forwardRef(() => UsersModule),
   ],
-  providers: [AuthService, AuthSerializer, LocalStrategy, JwtStrategy],
-  exports: [AuthService],
+  providers: [AuthResolver, AuthService, AuthSerializer, KakaoStrategy, JwtStrategy],
 })
 export class AuthModule {}

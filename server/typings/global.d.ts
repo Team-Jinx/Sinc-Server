@@ -1,4 +1,4 @@
-import { Payload } from '../src/auth';
+import { Payload, KakaoData } from '../src/auth';
 
 export declare global {
   namespace NodeJS {
@@ -14,6 +14,8 @@ export declare global {
       DB_NAME: string;
 
       JWT_SECRET: string;
+
+      KAKAO_PRIVATE_KEY: string;
     }
   }
 

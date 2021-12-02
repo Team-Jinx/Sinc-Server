@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { ArtistsModule } from './artists';
+import { AuthModule } from './auth';
 import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
@@ -38,6 +39,7 @@ import { UsersCheeredPerformancesModule } from './users-cheered-performances';
     // Service Modules
     CommonModule, // Global
     BaseModule,
+    AuthModule,
     UsersModule,
     ArtistsModule,
     PerformancesModule,

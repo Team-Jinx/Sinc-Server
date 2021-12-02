@@ -1,9 +1,14 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { NotificationModel } from 'src/shared/notification';
 import { UsersBoughtPerformancesModel } from 'src/users-bought-performances';
 import { UsersCheeredPerformancesModel } from 'src/users-cheered-performances';
 
-import { User } from '.prisma/client';
+import { User, Role } from '.prisma/client';
+
+registerEnumType(Role, {
+  name: 'Role',
+  description: 'user role',
+});
 
 @ObjectType({ description: '유저 테이블' })
 export class UserModel implements User {
@@ -16,8 +21,8 @@ export class UserModel implements User {
   @Field(() => String)
   public nickname!: string;
 
-  @Field(() => String, { nullable: true })
-  public phone!: string | null;
+  @Field(() => Role, { defaultValue: Role.USER })
+  public role!: Role;
 
   @Field(() => String, { nullable: true })
   public profileUrl!: string | null;

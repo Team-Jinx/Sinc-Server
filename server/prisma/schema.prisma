@@ -15,9 +15,9 @@ model User {
   id                  String    @default(cuid()) @id
   email               String    @unique
   nickname            String    @unique
-  phone               String?
   profileUrl          String?
   isPushNotification  Boolean   @default(true)
+  role                Role      @default(USER)
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   usersBoughtPerformances UsersBoughtPerformances[]
@@ -152,4 +152,9 @@ enum Category {
   DANCING
   ACTING
   OTHER
+}
+
+enum Role {
+  USER
+  ADMIN
 }

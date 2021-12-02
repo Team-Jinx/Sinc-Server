@@ -2,10 +2,10 @@ import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ForbiddenError } from 'apollo-server-express';
 
-import { JwtAuthGuard } from '../auth';
+import { JwtAuthGuard, Payload } from '../auth';
 import { Logger, ReqUser, Roles, RolesGuard } from '../common';
 import { CreateUserInput, FindUserArgs } from './dtos';
-import { Payload, UserModel } from './models';
+import { UserModel } from './models';
 import { UsersService } from './users.service';
 
 @Resolver(() => UserModel)

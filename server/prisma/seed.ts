@@ -6,17 +6,14 @@ const userData: Prisma.UserCreateInput[] = [
   {
     email: 'alice@prisma.io',
     nickname: 'Alice',
-    phone: '010-1234-1234',
   },
   {
     email: 'nilu@prisma.io',
     nickname: 'Nilu',
-    phone: '010-1234-1234',
   },
   {
     email: 'mahmoud@prisma.io',
     nickname: 'Mahmoud',
-    phone: '010-1234-1234',
     // posts: {
     //   create: [
     //     {

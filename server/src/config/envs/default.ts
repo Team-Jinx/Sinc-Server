@@ -20,6 +20,8 @@ export const config = {
     buildSchemaOptions: { dateScalarMode: 'timestamp' },
     // installSubscriptionHandlers: true,
   },
-  hello: 'world',
   jwtSecret: process.env.JWT_SECRET,
+  kakaoOAuth: {
+    clientId: process.env.KAKAO_PRIVATE_KEY,
+  },
 };
