@@ -70,14 +70,18 @@ const reservationTimeData = Array(50)
 
 const storyData = Array(200)
   .fill({})
-  .map((_: Story, index: number) => ({
-    id: index.toString(),
-    backgroundUrl: `https://sinc-storage.s3.ap-northeast-2.amazonaws.com/video.mp4`,
-    description: `description${index}`,
-    cheerCount: getRandomInt(0, 50),
-    type: Object.keys(StoryType)[getRandomInt(0, 1)] as StoryType,
-    performanceId: getRandomInt(0, performanceData.length - 1).toString(),
-  }));
+  .map((_: Story, index: number) => {
+    const flag = getRandomInt(0, 2);
+    return {
+      id: index.toString(),
+      imageUrl: flag === 0 ? `https://sinc-storage.s3.ap-northeast-2.amazonaws.com/runway_concert.png` : null,
+      videoUrl: flag > 0 ? `https://sinc-storage.s3.ap-northeast-2.amazonaws.com/video.mp4` : null,
+      description: `description${index}`,
+      cheerCount: getRandomInt(0, 50),
+      type: flag > 0 ? StoryType.ADVERTISE : StoryType.NOTICE,
+      performanceId: getRandomInt(0, performanceData.length - 1).toString(),
+    };
+  });
 
 const UsersBoughtPerformancesData = Array(10)
   .fill({})

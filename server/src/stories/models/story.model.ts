@@ -10,17 +10,18 @@ import { Story } from '.prisma/client';
 export class StoryModel implements Story {
   @Field(() => ID)
   public id!: string;
-
+  
   @Field(() => Int)
   public cheerCount!: number | null;
-
+  
   @Field(() => String)
   public type!: StoryType | null;
-
+  
   @Field(() => ID)
   public performanceId!: string;
-
-  public backgroundUrl!: string;
+  
+  public imageUrl!: string | null;
+  public videoUrl!: string | null;
   public description!: string;
   public createdAt!: Date;
   public updatedAt!: Date;

@@ -15,10 +15,6 @@ export class ArtistsService {
     return this.prismaService.artist.create({ data });
   }
 
-  // public async readWithAuthor(id: string): Promise<ArtistModel | null> {
-  //   return this.prismaService.post.findUnique({ where: { id } }).author();
-  // }
-
   public async read(id: string): Promise<ArtistModel | null> {
     return this.prismaService.artist.findUnique({
       where: { id },
@@ -39,7 +35,6 @@ export class ArtistsService {
         where: { id },
       });
     } catch (error) {
-      // https://www.prisma.io/docs/reference/api-reference/error-reference
       if (error instanceof PrismaClientKnownRequestError && error.code === PrismaError.RECORD_DOES_NOT_EXIST) {
         throw new NotFoundException('post with id not found');
       }
