@@ -9,9 +9,7 @@ import { FindRandomStoriesModel } from './models';
 
 @Injectable()
 export class StoriesService {
-  constructor(
-    private readonly prismaService: PrismaService, // private util: UtilService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   public async create(data: CreateStoryInput): Promise<StoryModel> {
     return this.prismaService.story.create({ data });
@@ -47,7 +45,7 @@ export class StoriesService {
     const skip = !cursor ? randomSkip : 1;
     const orderBy = field || this.randomPick<string>(['id', 'backgroundUrl', 'description', 'updatedAt']);
     const orderDirection = direction || this.randomPick([OrderDirection.ASC, OrderDirection.DESC]);
-    const data = await this.prismaService.story.findMany({
+    const stories = await this.prismaService.story.findMany({
       skip,
       take,
       ...(cursor && { cursor: { id: cursor } }),
@@ -56,7 +54,7 @@ export class StoriesService {
       include: { performance: { include: { artist: true } } },
     });
 
-    return { data, direction: orderDirection, field: orderBy };
+    return { data: stories, direction: orderDirection, field: orderBy };
   }
 
   public async update(id: string, story: UpdateStoryInput): Promise<StoryModel> {
