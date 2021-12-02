@@ -1,5 +1,5 @@
 import { ArgsType, Field } from '@nestjs/graphql';
-import { IsIn, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
 
 import { Category } from '.prisma/client';
 
@@ -18,4 +18,12 @@ export class FindPerformanceArgs {
   @IsString()
   @IsIn(Object.keys(Category))
   public category?: Category;
+
+  @IsOptional()
+  @IsInt()
+  public take?: number;
+
+  @IsOptional()
+  @IsInt()
+  public skip?: number;
 }

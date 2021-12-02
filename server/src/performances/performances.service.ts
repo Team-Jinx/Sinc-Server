@@ -32,9 +32,14 @@ export class PerformancesService {
   }
 
   public async find(args: FindPerformanceArgs): Promise<PerformanceModel[]> {
+    const { skip, take, ...where } = args;
+
     return this.prismaService.performance.findMany({
-      where: args,
-      include: { artist: true, reservationTimes: true },
+      where,
+      skip,
+      take,
+      orderBy: { toEndAt: 'desc' },
+      include: { artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc' } } },
     });
   }
 
