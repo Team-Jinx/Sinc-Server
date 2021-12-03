@@ -1,5 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional } from 'class-validator';
+import { IsDefined, IsIn, IsOptional } from 'class-validator';
+
+import { StoryType } from '.prisma/client';
 
 @InputType()
 export class CreateStoryInput {
@@ -16,4 +18,9 @@ export class CreateStoryInput {
 
   @Field()
   public performanceId!: string;
+
+  @Field(() => StoryType)
+  @IsDefined()
+  @IsIn(Object.keys(StoryType))
+  public type!: StoryType;
 }
