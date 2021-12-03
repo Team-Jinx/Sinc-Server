@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import dayjs from 'dayjs';
-import { PrismaService, PrismaError } from 'src/prisma';
+import { PrismaService, PrismaError, TransactionPrisma } from 'src/prisma';
 
 import { UsersBoughtPerformancesModel } from '.';
 import { CreateUsersBoughtPerformancesInput, FindUsersBoughtPerformancesArgs, UpdateUsersBoughtPerformancesInput } from './dtos';
@@ -13,20 +13,24 @@ export class UsersBoughtPerformancesService {
   ) {}
 
   public async create(data: CreateUsersBoughtPerformancesInput): Promise<UsersBoughtPerformancesModel> {
-    const result = await this.prismaService.$transaction([
-      this.prismaService.performance.update({
-        where: { id: data.performanceId },
-        data: { totalTicketCount: { increment: data.ticketCount } },
-      }),
-      this.prismaService.usersBoughtPerformances.create({ data, include: { performance: true } }),
-    ]);
+    const statistics = await this.findTicketStatistics(data.performanceId);
+    const performance = await this.prismaService.performance.findUnique({ where: { id: data.performanceId } });
 
-    return result[1];
+    if (!performance) throw new BadRequestException('no performance');
+    if (performance.fundingStatus === 'SUCCESS') throw new ForbiddenException('already success performance');
+    if (statistics.ticketCount + data.ticketCount > performance?.totalTicketCount) throw new ForbiddenException('too many ticket');
+
+    const result: UsersBoughtPerformancesModel = await this.prismaService.$transaction<UsersBoughtPerformancesModel>(
+      async (prisma: TransactionPrisma) => {
+        if (statistics.ticketCount + data.ticketCount === performance.totalTicketCount) {
+          await prisma.performance.update({ data: { fundingStatus: 'SUCCESS' }, where: { id: data.performanceId } });
+        }
+        return prisma.usersBoughtPerformances.create({ data, include: { performance: true } });
+      },
+    );
+
+    return result;
   }
-
-  // public async readWithAuthor(id: string): Promise<UsersBoughtPerformancesModel | null> {
-  //   return this.prismaService.post.findUnique({ where: { id } }).author();
-  // }
 
   public async read(id: string): Promise<UsersBoughtPerformancesModel | null> {
     return this.prismaService.usersBoughtPerformances.findUnique({
