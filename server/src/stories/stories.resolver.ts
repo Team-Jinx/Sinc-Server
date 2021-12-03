@@ -1,5 +1,6 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { JwtAuthGuard } from 'src/auth';
 import { UsersBoughtPerformancesService } from 'src/users-bought-performances';
 
 import { StoryModel } from '.';
@@ -8,6 +9,7 @@ import { CreateStoryInput, FindRandomStoriesArgs, FindStoryArgs, UpdateStoryInpu
 import { FindRandomStoriesModel, StoryWithPerformanceStatisticsModel } from './models';
 import { StoriesService } from './stories.service';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => StoryModel)
 export class StoriesResolver {
   constructor(

@@ -1,11 +1,13 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { JwtAuthGuard } from 'src/auth';
 
 import { UsersBoughtPerformancesModel } from '.';
 import { Logger } from '../common';
 import { CreateUsersBoughtPerformancesInput, FindUsersBoughtPerformancesArgs, UpdateUsersBoughtPerformancesInput } from './dtos';
 import { UsersBoughtPerformancesService } from './users-bought-performances.service';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => UsersBoughtPerformancesModel)
 export class UsersBoughtPerformancesResolver {
   constructor(private readonly logger: Logger, private usersBoughtPerformancesService: UsersBoughtPerformancesService) {

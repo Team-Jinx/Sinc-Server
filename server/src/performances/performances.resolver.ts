@@ -1,5 +1,6 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { JwtAuthGuard } from 'src/auth';
 import { ReservationTimeModel } from 'src/reservation-times';
 import { UsersBoughtPerformancesService } from 'src/users-bought-performances';
 
@@ -8,6 +9,7 @@ import { Logger } from '../common';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
 import { PerformancesService } from './performances.service';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => PerformanceModel)
 export class PerformancesResolver {
   constructor(

@@ -8,6 +8,7 @@ import { CreateUserInput, FindUserArgs } from './dtos';
 import { UserModel } from './models';
 import { UsersService } from './users.service';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => UserModel)
 export class UsersResolver {
   constructor(private readonly logger: Logger, private usersService: UsersService) {
@@ -20,8 +21,8 @@ export class UsersResolver {
   // }
 
   @Query(() => Payload)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('test')
+  @UseGuards(RolesGuard)
+  @Roles('USER')
   public user(@ReqUser() user: Payload): Payload {
     this.logger.log('user');
     if (!user) {

@@ -1,11 +1,13 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { JwtAuthGuard } from 'src/auth';
 
 import { UsersCheeredPerformancesModel } from '.';
 import { Logger } from '../common';
 import { CreateUsersCheeredPerformancesInput, FindUsersCheeredPerformancesArgs, UpdateUsersCheeredPerformancesInput } from './dtos';
 import { UsersCheeredPerformancesService } from './users-cheered-performances.service';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => UsersCheeredPerformancesModel)
 export class UsersCheeredPerformancesResolver {
   constructor(private readonly logger: Logger, private usersCheeredPerformancesService: UsersCheeredPerformancesService) {

@@ -1,5 +1,6 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { JwtAuthGuard } from 'src/auth';
 import { PerformanceModel } from 'src/performances';
 
 import { ReservationTimeModel } from '.';
@@ -7,6 +8,7 @@ import { Logger } from '../common';
 import { CreateReservationTimeInput, FindReservationTimeArgs, UpdateReservationTimeInput } from './dtos';
 import { ReservationTimesService } from './reservation-times.service';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => ReservationTimeModel)
 export class ReservationTimesResolver {
   constructor(private readonly logger: Logger, private reservationTimesService: ReservationTimesService) {
