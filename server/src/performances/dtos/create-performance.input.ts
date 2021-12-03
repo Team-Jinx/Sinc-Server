@@ -32,4 +32,7 @@ export class CreatePerformanceInput {
 
   @Field()
   public artistId!: string;
+
+  @Field(() => Int)
+  public totalTicketCount!: number;
 }
