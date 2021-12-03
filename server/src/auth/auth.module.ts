@@ -17,7 +17,7 @@ import { JwtStrategy, KakaoStrategy } from './strategies';
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
         secret: config.get('jwtSecret'),
-        signOptions: { expiresIn: '1d' },
+        signOptions: { expiresIn: '7d' },
       }),
       inject: [ConfigService],
     }),
