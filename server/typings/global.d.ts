@@ -16,6 +16,7 @@ export declare global {
       JWT_SECRET: string;
 
       KAKAO_PRIVATE_KEY: string;
+      KAKAO_REDIRECT_URI: string;
     }
   }
 

@@ -23,5 +23,6 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET,
   kakaoOAuth: {
     clientId: process.env.KAKAO_PRIVATE_KEY,
+    redirectUri: process.env.KAKAO_REDIRECT_URI,
   },
 };

@@ -13,7 +13,8 @@ export class KakaoStrategy {
 
   public async validateTokenAndDecode(code: string): Promise<KakaoData | null> {
     const clientIdKey = this.configService.get('kakaoOAuth.clientId');
-    const url = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientIdKey}&redirect_uri=http://localhost:3000/oauth&code=${code}`;
+    const redirectUri = this.configService.get('kakaoOAuth.redirectUri');
+    const url = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientIdKey}&redirect_uri=${redirectUri}&code=${code}`;
 
     try {
       const tokenData = await lastValueFrom(this.httpService.post<CodeResponse>(url));
