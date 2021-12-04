@@ -5,7 +5,7 @@ import { UsersBoughtPerformancesService } from 'src/users-bought-performances';
 
 import { StoryModel } from '.';
 import { Logger } from '../common';
-import { CreateStoryInput, FindRandomStoriesArgs, FindStoryArgs, UpdateStoryInput } from './dtos';
+import { CreateStoryInput, FindPopularStoriesArgs, FindRandomStoriesArgs, FindStoryArgs, UpdateStoryInput } from './dtos';
 import { FindRandomStoriesModel, StoryWithPerformanceStatisticsModel } from './models';
 import { StoriesService } from './stories.service';
 
@@ -85,14 +85,10 @@ export class StoriesResolver {
   }
 
   @Query(() => [StoryModel])
-  public async findPopularStories(
-    @Args('limit', { type: () => Int }) limit: number,
-    @Args('offset', { type: () => Int }) offset: number,
-    @Args('userId', { type: () => ID }) userId: string, // TODO: 나중에 @ReqUser로 변경할 것.
-  ): Promise<StoryModel[]> {
+  public async findPopularStories(@Args() args: FindPopularStoriesArgs): Promise<StoryModel[]> {
     this.logger.log('findPopularStories');
 
-    return this.storiesService.findPopularStories(limit, offset, userId);
+    return this.storiesService.findPopularStories(args);
   }
 
   @Mutation(() => StoryModel)

@@ -4,7 +4,7 @@ import { OrderDirection } from 'src/common';
 import { PrismaService, PrismaError } from 'src/prisma';
 
 import { StoryModel } from '.';
-import { CreateStoryInput, FindRandomStoriesArgs, FindStoryArgs, UpdateStoryInput } from './dtos';
+import { CreateStoryInput, FindPopularStoriesArgs, FindRandomStoriesArgs, FindStoryArgs, UpdateStoryInput } from './dtos';
 import { FindRandomStoriesModel } from './models';
 
 @Injectable()
@@ -74,13 +74,15 @@ export class StoriesService {
     });
   }
 
-  public async findPopularStories(limit: number, offset: number, userId: string): Promise<StoryModel[]> {
+  public async findPopularStories(args: FindPopularStoriesArgs): Promise<StoryModel[]> {
+    const { take, skip, userId } = args;
+
     return this.prismaService.story.findMany({
       where: { type: 'ADVERTISE', performance: { fundingStatus: 'PROGRESS' } },
       include: { usersCheeredPerformances: { where: { userId } } },
       orderBy: { cheerCount: 'desc' },
-      take: limit,
-      skip: offset,
+      take,
+      skip,
     });
   }
 
