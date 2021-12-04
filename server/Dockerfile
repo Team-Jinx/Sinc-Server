@@ -41,7 +41,7 @@ COPY --from=BUILD_IMAGE /app/node_modules ./node_modules
 COPY --from=BUILD_IMAGE /app/package.json ./
 COPY --from=BUILD_IMAGE /app/.env ./
 COPY --from=BUILD_IMAGE /app/public ./public
-COPY --from=BUILD_IMAGE /app/prisma ./
+COPY --from=BUILD_IMAGE /app/prisma ./prisma
 
 EXPOSE 3000
 
