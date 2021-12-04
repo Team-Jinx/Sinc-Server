@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import dayjs from 'dayjs';
 import { PrismaService, PrismaError, TransactionPrisma } from 'src/prisma';
@@ -18,23 +18,28 @@ export class UsersBoughtPerformancesService {
 
     if (!performance) throw new BadRequestException('no performance');
     if (performance.fundingStatus === 'SUCCESS') throw new ForbiddenException('already success performance');
-    if (performance.boughtTicketCount + inputData.ticketCount > performance?.totalTicketCount)
+    if (performance.boughtTicketCount + inputData.ticketCount > performance?.totalTicketCount) {
       throw new ForbiddenException('too many ticket');
+    }
 
-    const result: UsersBoughtPerformancesModel = await this.prismaService.$transaction<UsersBoughtPerformancesModel>(
-      async (prisma: TransactionPrisma) => {
-        const percentage = (performance.boughtTicketCount + inputData.ticketCount) / performance.totalTicketCount;
-        const data = {
-          boughtTicketCount: { increment: inputData.ticketCount },
-          ticketPercentage: percentage,
-          fundingStatus: percentage === 100 ? Status.SUCCESS : Status.PROGRESS,
-        };
-        await prisma.performance.update({ data, where: { id: inputData.performanceId } });
-        return prisma.usersBoughtPerformances.create({ data: inputData, include: { performance: true } });
-      },
-    );
+    try {
+      const result: UsersBoughtPerformancesModel = await this.prismaService.$transaction<UsersBoughtPerformancesModel>(
+        async (prisma: TransactionPrisma) => {
+          const percentage = (performance.boughtTicketCount + inputData.ticketCount) / performance.totalTicketCount;
+          const data = {
+            boughtTicketCount: { increment: inputData.ticketCount },
+            ticketPercentage: percentage,
+            fundingStatus: percentage === 100 ? Status.SUCCESS : Status.PROGRESS,
+          };
+          await prisma.performance.update({ data, where: { id: inputData.performanceId } });
+          return prisma.usersBoughtPerformances.create({ data: inputData, include: { performance: true } });
+        },
+      );
 
-    return result;
+      return result;
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   public async read(id: string): Promise<UsersBoughtPerformancesModel | null> {
