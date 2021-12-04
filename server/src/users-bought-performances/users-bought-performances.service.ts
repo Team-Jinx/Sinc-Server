@@ -23,7 +23,7 @@ export class UsersBoughtPerformancesService {
 
     const result: UsersBoughtPerformancesModel = await this.prismaService.$transaction<UsersBoughtPerformancesModel>(
       async (prisma: TransactionPrisma) => {
-        const percentage = performance.boughtTicketCount + inputData.ticketCount / performance.totalTicketCount;
+        const percentage = (performance.boughtTicketCount + inputData.ticketCount) / performance.totalTicketCount;
         const data = {
           boughtTicketCount: { increment: inputData.ticketCount },
           ticketPercentage: percentage,
