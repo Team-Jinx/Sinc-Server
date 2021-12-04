@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, Float, ID, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { ArtistModel } from 'src/artists';
 import { ReservationTimeModel } from 'src/reservation-times';
 import { NotificationModel } from 'src/shared/notification';
@@ -15,6 +15,12 @@ registerEnumType(Status, { name: 'Status' });
 export class PerformanceModel implements Performance {
   @Field(() => ID)
   public id!: string;
+
+  @Field(() => Float)
+  public ticketPercentage!: number;
+
+  @Field(() => Int)
+  public boughtTicketCount!: number;
 
   @Field(() => String)
   public title!: string;

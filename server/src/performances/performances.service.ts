@@ -5,6 +5,7 @@ import { ReservationTimeModel } from 'src/reservation-times';
 
 import { FindPerformanceById, PerformanceModel } from '.';
 import { CreatePerformanceInput, FindPerformanceArgs, UpdatePerformanceInput } from './dtos';
+import { Status } from '.prisma/client';
 
 @Injectable()
 export class PerformancesService {
@@ -54,6 +55,15 @@ export class PerformancesService {
       skip,
       take,
       orderBy: { toEndAt: 'desc' },
+      include: { artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc' } } },
+    });
+  }
+
+  public async findOrderByStatistics(): Promise<PerformanceModel[]> {
+    return this.prismaService.performance.findMany({
+      where: { fundingStatus: Status.PROGRESS },
+      orderBy: { ticketPercentage: 'desc' },
+      take: 3,
       include: { artist: true, reservationTimes: { orderBy: { toReserveAt: 'asc' } } },
     });
   }

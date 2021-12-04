@@ -5,6 +5,7 @@ import { PrismaService, PrismaError, TransactionPrisma } from 'src/prisma';
 
 import { UsersBoughtPerformancesModel } from '.';
 import { CreateUsersBoughtPerformancesInput, FindUsersBoughtPerformancesArgs, UpdateUsersBoughtPerformancesInput } from './dtos';
+import { Status } from '.prisma/client';
 
 @Injectable()
 export class UsersBoughtPerformancesService {
@@ -12,20 +13,24 @@ export class UsersBoughtPerformancesService {
     private readonly prismaService: PrismaService, // private util: UtilService,
   ) {}
 
-  public async create(data: CreateUsersBoughtPerformancesInput): Promise<UsersBoughtPerformancesModel> {
-    const statistics = await this.findTicketStatistics(data.performanceId);
-    const performance = await this.prismaService.performance.findUnique({ where: { id: data.performanceId } });
+  public async create(inputData: CreateUsersBoughtPerformancesInput): Promise<UsersBoughtPerformancesModel> {
+    const performance = await this.prismaService.performance.findUnique({ where: { id: inputData.performanceId } });
 
     if (!performance) throw new BadRequestException('no performance');
     if (performance.fundingStatus === 'SUCCESS') throw new ForbiddenException('already success performance');
-    if (statistics.ticketCount + data.ticketCount > performance?.totalTicketCount) throw new ForbiddenException('too many ticket');
+    if (performance.boughtTicketCount + inputData.ticketCount > performance?.totalTicketCount)
+      throw new ForbiddenException('too many ticket');
 
     const result: UsersBoughtPerformancesModel = await this.prismaService.$transaction<UsersBoughtPerformancesModel>(
       async (prisma: TransactionPrisma) => {
-        if (statistics.ticketCount + data.ticketCount === performance.totalTicketCount) {
-          await prisma.performance.update({ data: { fundingStatus: 'SUCCESS' }, where: { id: data.performanceId } });
-        }
-        return prisma.usersBoughtPerformances.create({ data, include: { performance: true } });
+        const percentage = performance.boughtTicketCount + inputData.ticketCount / performance.totalTicketCount;
+        const data = {
+          boughtTicketCount: { increment: inputData.ticketCount },
+          ticketPercentage: percentage,
+          fundingStatus: percentage === 100 ? Status.SUCCESS : Status.PROGRESS,
+        };
+        await prisma.performance.update({ data, where: { id: inputData.performanceId } });
+        return prisma.usersBoughtPerformances.create({ data: inputData, include: { performance: true } });
       },
     );
 

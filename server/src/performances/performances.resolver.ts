@@ -46,6 +46,13 @@ export class PerformancesResolver {
     return this.performancesService.find(args);
   }
 
+  @Query(() => [PerformanceModel])
+  public async findPerformancesByPercentage(): Promise<PerformanceModel[]> {
+    this.logger.log('findByPercentage');
+
+    return this.performancesService.findOrderByStatistics();
+  }
+
   @Query(() => Int)
   public async countPerformance(@Args() args: FindPerformanceArgs): Promise<number> {
     this.logger.log('count');

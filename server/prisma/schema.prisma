@@ -50,6 +50,8 @@ model Performance {
   posterUrl           String?
   fundingStatus       Status    @default(PROGRESS)
   category            Category
+  ticketPercentage    Float     @default(0)
+  boughtTicketCount   Int       @default(0)
   totalTicketCount    Int       @default(0)
   toEndAt             DateTime  @default(now())
   createdAt           DateTime  @default(now())

@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Status, Category } from '@prisma/client';
 import { ReservationTimeModel } from 'src/reservation-times';
 import { NotificationModel } from 'src/shared/notification';
@@ -16,6 +16,12 @@ export class FindPerformanceById implements Performance {
 
   @Field(() => ID)
   public id!: string;
+
+  @Field(() => Float)
+  public ticketPercentage!: number;
+
+  @Field(() => Int)
+  public boughtTicketCount!: number;
 
   @Field(() => String)
   public title!: string;
