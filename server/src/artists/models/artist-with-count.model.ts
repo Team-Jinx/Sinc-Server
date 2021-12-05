@@ -5,7 +5,7 @@ import { ArtistModel } from '.';
 import { PerformanceWithCountModel } from './performance-with-count.model';
 
 @ObjectType()
-export class ArtistWithCountModel implements ArtistModel {
+export class ArtistWithCount2Model implements ArtistModel {
   @Field(() => ID)
   public id!: string;
 
