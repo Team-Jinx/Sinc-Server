@@ -37,7 +37,7 @@ export class ArtistsResolver {
     return this.artistsService.find(args);
   }
 
-  @Query(() => [ArtistModel])
+  @Query(() => [ArtistWithCountModel])
   public async findTwoArtists(): Promise<ArtistWithCountModel[]> {
     this.logger.log('find two artist');
     const artists = [];
