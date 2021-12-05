@@ -40,7 +40,7 @@ export class ArtistsResolver {
   @Query(() => [ArtistWithCount2Model])
   public async findTwoArtists(): Promise<ArtistWithCount2Model[]> {
     this.logger.log('find two artist');
-    const artists = [];
+    const artists: ArtistWithCount2Model[] = [];
 
     while (artists.length < 2) {
       const artist = await this.artistsService.findRandomOne();
