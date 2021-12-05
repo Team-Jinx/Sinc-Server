@@ -1,15 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html style="font-size: 10px">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
+    <title>Sinc 소개 페이지</title>
+    <base href="./" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css"
+    />
+    <link href=”https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap” rel=”stylesheet”>
+    <style>
+      * {
+        margin: 0;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-  <title>node-nestjs-structure</title>
-  <base href="./">
-</head>
+      div {
+        background-image: url('./assets/unsplash_tIr-PWgSYB4.png');
+        width: 100vw;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
-<body>
-  Hello, world!
-</body>
+      h1 {
+        color: white;
+        font-family: Pretendard;
+        font-size: 4rem;
+        font-style: normal;
+        font-weight: 800;
+        line-height: 60px;
+        letter-spacing: -1.2999999523162842px;
+        text-align: center;
+        margin-bottom: 19px;
+      }
 
+      p {
+        color: white;
+        font-family: Pretendard;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 30px;
+        letter-spacing: -1.2999999523162842px;
+        text-align: center;
+        width: 248px;
+        margin-bottom: 243px;
+        opacity: 0.8;
+      }
+
+      a {
+        border-radius: 6px;
+        text-align: center;
+        width: 300px;
+        height: 52px;
+        background-color: #daff2c;
+        color: black;
+
+        font-family: ‘Noto Sans KR’, sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 15.3831px;
+        line-height: 52px;
+        text-align: center;
+        letter-spacing: -0.04em;
+      }
+    </style>
+  </head>
+
+  <body style="margin: 0px">
+    <div>
+      <img src="./assets/icon.svg" alt="sinc" style="width: 4wv; align-self: flex-start; top: 21px; left: 30px; position: absolute" />
+      <h1>내 인생 무대는?</h1>
+      <p>당신이 공연 했거나, 지금까지 봤던 무대 중 가장 기억에 남는 순간을 공유해주세요!</p>
+      <a>sinc 앱 다운받기</a>
+    </div>
+  </body>
 </html>
