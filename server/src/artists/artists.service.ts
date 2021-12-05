@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService, PrismaError } from 'src/prisma';
 
-import { ArtistModel } from '.';
+import { ArtistModel, ArtistWithCountModel } from '.';
 import { CreateArtistInput, FindArtistArgs, UpdateArtistInput } from './dtos';
 
 @Injectable()
@@ -26,6 +26,16 @@ export class ArtistsService {
 
   public async find(args: FindArtistArgs): Promise<ArtistModel[]> {
     return this.prismaService.artist.findMany({ where: args });
+  }
+
+  public async findRandomOne(): Promise<ArtistWithCountModel | null> {
+    const artistCount = await this.prismaService.artist.count();
+    const randomNumber = Math.floor(Math.random() * artistCount);
+
+    return this.prismaService.artist.findFirst({
+      skip: randomNumber,
+      include: { performances: { take: 1 }, _count: { select: { performances: true } } },
+    });
   }
 
   public async update(id: string, artist: UpdateArtistInput): Promise<ArtistModel> {

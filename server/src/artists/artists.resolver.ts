@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { ArtistModel } from '.';
+import { ArtistModel, ArtistWithCountModel } from '.';
 import { Logger } from '../common';
 import { ArtistsService } from './artists.service';
 import { CreateArtistInput, FindArtistArgs, UpdateArtistInput } from './dtos';
@@ -35,6 +35,23 @@ export class ArtistsResolver {
     this.logger.log('find');
 
     return this.artistsService.find(args);
+  }
+
+  @Query(() => [ArtistModel])
+  public async findTwoArtists(): Promise<ArtistWithCountModel[]> {
+    this.logger.log('find two artist');
+    const artists = [];
+
+    while (artists.length < 2) {
+      const artist = await this.artistsService.findRandomOne();
+
+      if (!artist) continue;
+      if (artists.length === 1 && artist.id === artists?.[0].id) continue;
+
+      artists.push(artist);
+    }
+
+    return artists;
   }
 
   @Mutation(() => ArtistModel)
