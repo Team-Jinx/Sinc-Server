@@ -19,7 +19,6 @@ import { UsersCheeredPerformancesModule } from './users-cheered-performances';
 @Module({
   imports: [
     // Configuration
-    // https://docs.nestjs.com/techniques/configuration
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],

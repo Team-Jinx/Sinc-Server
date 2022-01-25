@@ -7,9 +7,7 @@ import { CreateArtistInput, FindArtistArgs, UpdateArtistInput } from './dtos';
 
 @Injectable()
 export class ArtistsService {
-  constructor(
-    private readonly prismaService: PrismaService, // private util: UtilService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   public async create(data: CreateArtistInput): Promise<ArtistModel> {
     return this.prismaService.artist.create({ data });
