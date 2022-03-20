@@ -1,4 +1,4 @@
 export * from './prisma.module';
 export * from './prisma.service';
-export * from './prismaError';
+export * from './prisma-error';
 export * from './prisma.interface';
